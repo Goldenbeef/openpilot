@@ -6,6 +6,7 @@ from enum import IntEnum
 from panda import Panda
 from panda.python.uds import UdsClient, MessageTimeoutError, NegativeResponseError, SESSION_TYPE,\
   DATA_IDENTIFIER_TYPE, ACCESS_TYPE
+from datetime import date
 
 # TODO: extend UDS library to allow custom/vendor-defined data identifiers without ignoring type checks
 class VOLKSWAGEN_DATA_IDENTIFIER_TYPE(IntEnum):
@@ -49,7 +50,7 @@ if __name__ == "__main__":
     sw_pn = uds_client.read_data_by_identifier(DATA_IDENTIFIER_TYPE.VEHICLE_MANUFACTURER_SPARE_PART_NUMBER).decode("utf-8")
     sw_ver = uds_client.read_data_by_identifier(DATA_IDENTIFIER_TYPE.VEHICLE_MANUFACTURER_ECU_SOFTWARE_VERSION_NUMBER).decode("utf-8")
     component = uds_client.read_data_by_identifier(DATA_IDENTIFIER_TYPE.SYSTEM_NAME_OR_ENGINE_TYPE).decode("utf-8")
-    odx_file = uds_client.read_data_by_identifier(DATA_IDENTIFIER_TYPE.ODX_FILE).decode("utf-8")
+    odx_file = uds_client.read_data_by_identifier(DATA_IDENTIFIER_TYPE.ODX_FILE).decode("utf-8").rstrip('\x00')
     current_coding = uds_client.read_data_by_identifier(VOLKSWAGEN_DATA_IDENTIFIER_TYPE.CODING)  # type: ignore
     coding_text = current_coding.hex()
 
@@ -70,14 +71,14 @@ if __name__ == "__main__":
   coding_variant, current_coding_array, coding_byte, coding_bit = None, None, 0, 0
   coding_length = len(current_coding)
 
-  # EV_SteerAssisMQB/MNB cover the majority of MQB racks (EPS_MQB_ZFLS)
-  if odx_file in ("EV_SteerAssisMQB\x00", "EV_SteerAssisMNB\x00"):
-    coding_variant = "ZF"
+  # EPS_MQB_ZFLS
+  if odx_file in ("EV_SteerAssisMQB", "EV_SteerAssisMNB"):
+    coding_variant = "ZFLS"
     coding_byte = 0
     coding_bit = 4
 
-  # APA racks (MQB_PP_APA) have a different coding layout
-  elif odx_file == "EV_SteerAssisVWBSMQBA\x00\x00\x00\x00":
+  # MQB_PP_APA, MQB_VWBS_GEN2
+  elif odx_file in ("EV_SteerAssisVWBSMQBA", "EV_SteerAssisVWBSMQBGen2"):
     coding_variant = "APA"
     coding_byte = 3
     coding_bit = 0
@@ -111,8 +112,8 @@ if __name__ == "__main__":
   if args.action in ["enable", "disable"]:
     print("\nAttempting configuration update")
 
-    assert(coding_variant in ("ZF", "APA"))
-    # ZF EPS config coding length can be anywhere from 1 to 4 bytes, but the
+    assert(coding_variant in ("ZFLS", "APA"))
+    # ZFLS EPS config coding length can be anywhere from 1 to 4 bytes, but the
     # bit we care about is always in the same place in the first byte
     if args.action == "enable":
       new_byte = current_coding_array[coding_byte] | (1 << coding_bit)
@@ -126,6 +127,7 @@ if __name__ == "__main__":
       uds_client.security_access(ACCESS_TYPE_LEVEL_1.SEND_KEY, struct.pack("!I", key))  # type: ignore
     except (NegativeResponseError, MessageTimeoutError):
       print("Security access failed!")
+      print("Open the hood and retry (disables the \"diagnostic firewall\" on newer vehicles)")
       quit()
 
     try:
@@ -135,14 +137,17 @@ if __name__ == "__main__":
       # last two bytes, but not the VZ/importer or tester serial number
       # Can't seem to read it back, but we can read the calibration tester,
       # so fib a little and say that same tester did the programming
-      # TODO: encode the actual current date
-      prog_date = b'\x22\x02\x08'
+      current_date = date.today()
+      formatted_date = current_date.strftime('%y-%m-%d')
+      year, month, day = (int(part) for part in formatted_date.split('-'))
+      prog_date = bytes([year, month, day])
       uds_client.write_data_by_identifier(DATA_IDENTIFIER_TYPE.PROGRAMMING_DATE, prog_date)
       tester_num = uds_client.read_data_by_identifier(DATA_IDENTIFIER_TYPE.CALIBRATION_REPAIR_SHOP_CODE_OR_CALIBRATION_EQUIPMENT_SERIAL_NUMBER)
       uds_client.write_data_by_identifier(DATA_IDENTIFIER_TYPE.REPAIR_SHOP_CODE_OR_TESTER_SERIAL_NUMBER, tester_num)
       uds_client.write_data_by_identifier(VOLKSWAGEN_DATA_IDENTIFIER_TYPE.CODING, new_coding)  # type: ignore
     except (NegativeResponseError, MessageTimeoutError):
       print("Writing new configuration failed!")
+      print("Make sure the comma processes are stopped: tmux kill-session -t comma")
       quit()
 
     try:

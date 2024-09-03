@@ -1,5 +1,6 @@
 #include "selfdrive/ui/ui.h"
 
+#include <algorithm>
 #include <cassert>
 #include <cmath>
 
@@ -14,7 +15,6 @@
 
 #define BACKLIGHT_DT 0.05
 #define BACKLIGHT_TS 10.00
-#define BACKLIGHT_OFFROAD 50
 
 // Projects a point in car to space to the corresponding point in full frame
 // image space.
@@ -24,7 +24,7 @@ static bool calib_frame_to_full_frame(const UIState *s, float in_x, float in_y, 
 
   const vec3 pt = (vec3){{in_x, in_y, in_z}};
   const vec3 Ep = matvecmul3(s->scene.wide_cam ? s->scene.view_from_wide_calib : s->scene.view_from_calib, pt);
-  const vec3 KEp = matvecmul3(s->scene.wide_cam ? ecam_intrinsic_matrix : fcam_intrinsic_matrix, Ep);
+  const vec3 KEp = matvecmul3(s->scene.wide_cam ? ECAM_INTRINSIC_MATRIX : FCAM_INTRINSIC_MATRIX, Ep);
 
   // Project.
   QPointF point = s->car_space_transform.map(QPointF{KEp.v[0] / KEp.v[2], KEp.v[1] / KEp.v[2]});
@@ -35,16 +35,16 @@ static bool calib_frame_to_full_frame(const UIState *s, float in_x, float in_y, 
   return false;
 }
 
-int get_path_length_idx(const cereal::ModelDataV2::XYZTData::Reader &line, const float path_height) {
+int get_path_length_idx(const cereal::XYZTData::Reader &line, const float path_height) {
   const auto line_x = line.getX();
   int max_idx = 0;
-  for (int i = 1; i < TRAJECTORY_SIZE && line_x[i] <= path_height; ++i) {
+  for (int i = 1; i < line_x.size() && line_x[i] <= path_height; ++i) {
     max_idx = i;
   }
   return max_idx;
 }
 
-void update_leads(UIState *s, const cereal::RadarState::Reader &radar_state, const cereal::ModelDataV2::XYZTData::Reader &line) {
+void update_leads(UIState *s, const cereal::RadarState::Reader &radar_state, const cereal::XYZTData::Reader &line) {
   for (int i = 0; i < 2; ++i) {
     auto lead_data = (i == 0) ? radar_state.getLeadOne() : radar_state.getLeadTwo();
     if (lead_data.getStatus()) {
@@ -54,36 +54,33 @@ void update_leads(UIState *s, const cereal::RadarState::Reader &radar_state, con
   }
 }
 
-void update_line_data(const UIState *s, const cereal::ModelDataV2::XYZTData::Reader &line,
-                             float y_off, float z_off, QPolygonF *pvd, int max_idx, bool allow_invert=true) {
+void update_line_data(const UIState *s, const cereal::XYZTData::Reader &line,
+                      float y_off, float z_off, QPolygonF *pvd, int max_idx, bool allow_invert=true) {
   const auto line_x = line.getX(), line_y = line.getY(), line_z = line.getZ();
-
-  QPolygonF left_points, right_points;
-  left_points.reserve(max_idx + 1);
-  right_points.reserve(max_idx + 1);
-
+  QPointF left, right;
+  pvd->clear();
   for (int i = 0; i <= max_idx; i++) {
     // highly negative x positions  are drawn above the frame and cause flickering, clip to zy plane of camera
     if (line_x[i] < 0) continue;
-    QPointF left, right;
+
     bool l = calib_frame_to_full_frame(s, line_x[i], line_y[i] - y_off, line_z[i] + z_off, &left);
     bool r = calib_frame_to_full_frame(s, line_x[i], line_y[i] + y_off, line_z[i] + z_off, &right);
     if (l && r) {
       // For wider lines the drawn polygon will "invert" when going over a hill and cause artifacts
-      if (!allow_invert && left_points.size() && left.y() > left_points.back().y()) {
+      if (!allow_invert && pvd->size() && left.y() > pvd->back().y()) {
         continue;
       }
-      left_points.push_back(left);
-      right_points.push_front(right);
+      pvd->push_back(left);
+      pvd->push_front(right);
     }
   }
-  *pvd = left_points + right_points;
 }
 
-void update_model(UIState *s, const cereal::ModelDataV2::Reader &model) {
+void update_model(UIState *s,
+                  const cereal::ModelDataV2::Reader &model) {
   UIScene &scene = s->scene;
   auto model_position = model.getPosition();
-  float max_distance = std::clamp(model_position.getX()[TRAJECTORY_SIZE - 1],
+  float max_distance = std::clamp(*(model_position.getX().end() - 1),
                                   MIN_DRAW_DISTANCE, MAX_DRAW_DISTANCE);
 
   // update lane lines
@@ -122,8 +119,9 @@ static void update_state(UIState *s) {
   UIScene &scene = s->scene;
 
   if (sm.updated("liveCalibration")) {
-    auto rpy_list = sm["liveCalibration"].getLiveCalibration().getRpyCalib();
-    auto wfde_list = sm["liveCalibration"].getLiveCalibration().getWideFromDeviceEuler();
+    auto live_calib = sm["liveCalibration"].getLiveCalibration();
+    auto rpy_list = live_calib.getRpyCalib();
+    auto wfde_list = live_calib.getWideFromDeviceEuler();
     Eigen::Vector3d rpy;
     Eigen::Vector3d wfde;
     if (rpy_list.size() == 3) rpy << rpy_list[0], rpy_list[1], rpy_list[2];
@@ -131,18 +129,18 @@ static void update_state(UIState *s) {
     Eigen::Matrix3d device_from_calib = euler2rot(rpy);
     Eigen::Matrix3d wide_from_device = euler2rot(wfde);
     Eigen::Matrix3d view_from_device;
-    view_from_device << 0,1,0,
-                        0,0,1,
-                        1,0,0;
+    view_from_device << 0, 1, 0,
+                        0, 0, 1,
+                        1, 0, 0;
     Eigen::Matrix3d view_from_calib = view_from_device * device_from_calib;
-    Eigen::Matrix3d view_from_wide_calib = view_from_device * wide_from_device * device_from_calib ;
+    Eigen::Matrix3d view_from_wide_calib = view_from_device * wide_from_device * device_from_calib;
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
-        scene.view_from_calib.v[i*3 + j] = view_from_calib(i,j);
-        scene.view_from_wide_calib.v[i*3 + j] = view_from_wide_calib(i,j);
+        scene.view_from_calib.v[i*3 + j] = view_from_calib(i, j);
+        scene.view_from_wide_calib.v[i*3 + j] = view_from_wide_calib(i, j);
       }
     }
-    scene.calibration_valid = sm["liveCalibration"].getLiveCalibration().getCalStatus() == 1;
+    scene.calibration_valid = live_calib.getCalStatus() == cereal::LiveCalibrationData::Status::CALIBRATED;
     scene.calibration_wide_valid = wfde_list.size() == 3;
   }
   if (sm.updated("pandaStates")) {
@@ -164,32 +162,33 @@ static void update_state(UIState *s) {
     scene.longitudinal_control = sm["carParams"].getCarParams().getOpenpilotLongitudinalControl();
   }
   if (sm.updated("wideRoadCameraState")) {
-    float scale = (sm["wideRoadCameraState"].getWideRoadCameraState().getSensor() == cereal::FrameData::ImageSensor::AR0321) ? 6.0f : 1.0f;
-    scene.light_sensor = std::max(100.0f - scale * sm["wideRoadCameraState"].getWideRoadCameraState().getExposureValPercent(), 0.0f);
+    auto cam_state = sm["wideRoadCameraState"].getWideRoadCameraState();
+    float scale = (cam_state.getSensor() == cereal::FrameData::ImageSensor::AR0231) ? 6.0f : 1.0f;
+    scene.light_sensor = std::max(100.0f - scale * cam_state.getExposureValPercent(), 0.0f);
+  } else if (!sm.allAliveAndValid({"wideRoadCameraState"})) {
+    scene.light_sensor = -1;
   }
   scene.started = sm["deviceState"].getDeviceState().getStarted() && scene.ignition;
+
+  scene.world_objects_visible = scene.world_objects_visible ||
+                                (scene.started &&
+                                 sm.rcv_frame("liveCalibration") > scene.started_frame &&
+                                 sm.rcv_frame("modelV2") > scene.started_frame);
 }
 
 void ui_update_params(UIState *s) {
   auto params = Params();
   s->scene.is_metric = params.getBool("IsMetric");
-  s->scene.map_on_left = params.getBool("NavSettingLeftSide");
-  s->scene.experimental_mode = params.getBool("ExperimentalMode");
 }
 
 void UIState::updateStatus() {
-  if (scene.started && sm->updated("controlsState")) {
-    auto controls_state = (*sm)["controlsState"].getControlsState();
-    auto alert_status = controls_state.getAlertStatus();
-    auto state = controls_state.getState();
-    if (alert_status == cereal::ControlsState::AlertStatus::USER_PROMPT) {
-      status = STATUS_WARNING;
-    } else if (alert_status == cereal::ControlsState::AlertStatus::CRITICAL) {
-      status = STATUS_ALERT;
-    } else if (state == cereal::ControlsState::OpenpilotState::PRE_ENABLED || state == cereal::ControlsState::OpenpilotState::OVERRIDING) {
+  if (scene.started && sm->updated("selfdriveState")) {
+    auto ss = (*sm)["selfdriveState"].getSelfdriveState();
+    auto state = ss .getState();
+    if (state == cereal::SelfdriveState::OpenpilotState::PRE_ENABLED || state == cereal::SelfdriveState::OpenpilotState::OVERRIDING) {
       status = STATUS_OVERRIDE;
     } else {
-      status = controls_state.getEnabled() ? STATUS_ENGAGED : STATUS_DISENGAGED;
+      status = ss.getEnabled() ? STATUS_ENGAGED : STATUS_DISENGAGED;
     }
   }
 
@@ -198,31 +197,26 @@ void UIState::updateStatus() {
     if (scene.started) {
       status = STATUS_DISENGAGED;
       scene.started_frame = sm->frame;
-      wide_cam_only = Params().getBool("WideCameraOnly");
     }
     started_prev = scene.started;
+    scene.world_objects_visible = false;
     emit offroadTransition(!scene.started);
-  }
-
-  // Handle prime type change
-  if (prime_type != prime_type_prev) {
-    prime_type_prev = prime_type;
-    emit primeTypeChanged(prime_type);
-    Params().put("PrimeType", std::to_string(prime_type));
   }
 }
 
 UIState::UIState(QObject *parent) : QObject(parent) {
-  sm = std::make_unique<SubMaster, const std::initializer_list<const char *>>({
-    "modelV2", "controlsState", "liveCalibration", "radarState", "deviceState", "roadCameraState",
-    "pandaStates", "carParams", "driverMonitoringState", "carState", "liveLocationKalman",
-    "wideRoadCameraState", "managerState", "navInstruction", "navRoute", "gnssMeasurements",
+  sm = std::make_unique<SubMaster>(std::vector<const char*>{
+    "modelV2", "controlsState", "liveCalibration", "radarState", "deviceState",
+    "pandaStates", "carParams", "driverMonitoringState", "carState", "driverStateV2",
+    "wideRoadCameraState", "managerState", "selfdriveState",
   });
 
   Params params;
-  wide_cam_only = params.getBool("WideCameraOnly");
-  prime_type = std::atoi(params.get("PrimeType").c_str());
   language = QString::fromStdString(params.get("LanguageSetting"));
+  auto prime_value = params.get("PrimeType");
+  if (!prime_value.empty()) {
+    prime_type = static_cast<PrimeType>(std::atoi(prime_value.c_str()));
+  }
 
   // update timer
   timer = new QTimer(this);
@@ -235,15 +229,34 @@ void UIState::update() {
   update_state(this);
   updateStatus();
 
+  if (std::getenv("PRIME_TYPE")) {
+      setPrimeType((PrimeType)atoi(std::getenv("PRIME_TYPE")));
+  }
+
   if (sm->frame % UI_FREQ == 0) {
     watchdog_kick(nanos_since_boot());
   }
   emit uiUpdate(*this);
 }
 
+void UIState::setPrimeType(PrimeType type) {
+  if (type != prime_type) {
+    bool prev_prime = hasPrime();
+
+    prime_type = type;
+    Params().put("PrimeType", std::to_string(prime_type));
+    emit primeTypeChanged(prime_type);
+
+    bool prime = hasPrime();
+    if (prev_prime != prime) {
+      emit primeChanged(prime);
+    }
+  }
+}
+
 Device::Device(QObject *parent) : brightness_filter(BACKLIGHT_OFFROAD, BACKLIGHT_TS, BACKLIGHT_DT), QObject(parent) {
   setAwake(true);
-  resetInteractiveTimout();
+  resetInteractiveTimeout();
 
   QObject::connect(uiState(), &UIState::uiUpdate, this, &Device::update);
 }
@@ -251,9 +264,6 @@ Device::Device(QObject *parent) : brightness_filter(BACKLIGHT_OFFROAD, BACKLIGHT
 void Device::update(const UIState &s) {
   updateBrightness(s);
   updateWakefulness(s);
-
-  // TODO: remove from UIState and use signals
-  uiState()->awake = awake;
 }
 
 void Device::setAwake(bool on) {
@@ -265,13 +275,16 @@ void Device::setAwake(bool on) {
   }
 }
 
-void Device::resetInteractiveTimout() {
-  interactive_timeout = (ignition_on ? 10 : 30) * UI_FREQ;
+void Device::resetInteractiveTimeout(int timeout) {
+  if (timeout == -1) {
+    timeout = (ignition_on ? 10 : 30);
+  }
+  interactive_timeout = timeout * UI_FREQ;
 }
 
 void Device::updateBrightness(const UIState &s) {
-  float clipped_brightness = BACKLIGHT_OFFROAD;
-  if (s.scene.started) {
+  float clipped_brightness = offroad_brightness;
+  if (s.scene.started && s.scene.light_sensor > 0) {
     clipped_brightness = s.scene.light_sensor;
 
     // CIE 1931 - https://www.photonstophotos.net/GeneralTopics/Exposure/Psychometric_Lightness_and_Gamma.htm
@@ -303,9 +316,9 @@ void Device::updateWakefulness(const UIState &s) {
   ignition_on = s.scene.ignition;
 
   if (ignition_just_turned_off) {
-    resetInteractiveTimout();
+    resetInteractiveTimeout();
   } else if (interactive_timeout > 0 && --interactive_timeout == 0) {
-    emit interactiveTimout();
+    emit interactiveTimeout();
   }
 
   setAwake(s.scene.ignition || interactive_timeout > 0);
@@ -314,4 +327,9 @@ void Device::updateWakefulness(const UIState &s) {
 UIState *uiState() {
   static UIState ui_state;
   return &ui_state;
+}
+
+Device *device() {
+  static Device _device;
+  return &_device;
 }

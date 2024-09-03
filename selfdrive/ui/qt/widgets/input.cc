@@ -9,7 +9,7 @@
 #include "selfdrive/ui/qt/widgets/scrollview.h"
 
 
-QDialogBase::QDialogBase(QWidget *parent) : QDialog(parent) {
+DialogBase::DialogBase(QWidget *parent) : QDialog(parent) {
   Q_ASSERT(parent != nullptr);
   parent->installEventFilter(this);
 
@@ -19,7 +19,7 @@ QDialogBase::QDialogBase(QWidget *parent) : QDialog(parent) {
       color: white;
       font-family: Inter;
     }
-    QDialogBase {
+    DialogBase {
       background-color: black;
     }
     QPushButton {
@@ -36,19 +36,19 @@ QDialogBase::QDialogBase(QWidget *parent) : QDialog(parent) {
   )");
 }
 
-bool QDialogBase::eventFilter(QObject *o, QEvent *e) {
+bool DialogBase::eventFilter(QObject *o, QEvent *e) {
   if (o == parent() && e->type() == QEvent::Hide) {
     reject();
   }
   return QDialog::eventFilter(o, e);
 }
 
-int QDialogBase::exec() {
+int DialogBase::exec() {
   setMainWindow(this);
   return QDialog::exec();
 }
 
-InputDialog::InputDialog(const QString &title, QWidget *parent, const QString &subtitle, bool secret) : QDialogBase(parent) {
+InputDialog::InputDialog(const QString &title, QWidget *parent, const QString &subtitle, bool secret) : DialogBase(parent) {
   main_layout = new QVBoxLayout(this);
   main_layout->setContentsMargins(50, 55, 50, 50);
   main_layout->setSpacing(0);
@@ -71,10 +71,15 @@ InputDialog::InputDialog(const QString &title, QWidget *parent, const QString &s
   QPushButton* cancel_btn = new QPushButton(tr("Cancel"));
   cancel_btn->setFixedSize(386, 125);
   cancel_btn->setStyleSheet(R"(
-    font-size: 48px;
-    border-radius: 10px;
-    color: #E4E4E4;
-    background-color: #444444;
+    QPushButton {
+      font-size: 48px;
+      border-radius: 10px;
+      color: #E4E4E4;
+      background-color: #333333;
+    }
+    QPushButton:pressed {
+      background-color: #444444;
+    }
   )");
   header_layout->addWidget(cancel_btn, 0, Qt::AlignRight);
   QObject::connect(cancel_btn, &QPushButton::clicked, this, &InputDialog::reject);
@@ -124,7 +129,8 @@ InputDialog::InputDialog(const QString &title, QWidget *parent, const QString &s
         line->setEchoMode(QLineEdit::Normal);
       }
     });
-    eye_btn->setChecked(true);
+    eye_btn->toggle();
+    eye_btn->setChecked(false);
     textbox_layout->addWidget(eye_btn);
   }
 
@@ -145,7 +151,7 @@ InputDialog::InputDialog(const QString &title, QWidget *parent, const QString &s
 
 QString InputDialog::getText(const QString &prompt, QWidget *parent, const QString &subtitle,
                              bool secret, int minLength, const QString &defaultText) {
-  InputDialog d = InputDialog(prompt, parent, subtitle, secret);
+  InputDialog d(prompt, parent, subtitle, secret);
   d.line->setText(defaultText);
   d.setMinLength(minLength);
   const int ret = d.exec();
@@ -183,7 +189,7 @@ void InputDialog::setMinLength(int length) {
 // ConfirmationDialog
 
 ConfirmationDialog::ConfirmationDialog(const QString &prompt_text, const QString &confirm_text, const QString &cancel_text,
-                                       const bool rich, QWidget *parent) : QDialogBase(parent) {
+                                       const bool rich, QWidget *parent) : DialogBase(parent) {
   QFrame *container = new QFrame(this);
   container->setStyleSheet(R"(
     QFrame { background-color: #1B1B1B; color: #C9C9C9; }
@@ -224,23 +230,23 @@ ConfirmationDialog::ConfirmationDialog(const QString &prompt_text, const QString
 }
 
 bool ConfirmationDialog::alert(const QString &prompt_text, QWidget *parent) {
-  ConfirmationDialog d = ConfirmationDialog(prompt_text, tr("Ok"), "", false, parent);
+  ConfirmationDialog d(prompt_text, tr("Ok"), "", false, parent);
   return d.exec();
 }
 
 bool ConfirmationDialog::confirm(const QString &prompt_text, const QString &confirm_text, QWidget *parent) {
-  ConfirmationDialog d = ConfirmationDialog(prompt_text, confirm_text, tr("Cancel"), false, parent);
+  ConfirmationDialog d(prompt_text, confirm_text, tr("Cancel"), false, parent);
   return d.exec();
 }
 
 bool ConfirmationDialog::rich(const QString &prompt_text, QWidget *parent) {
-  ConfirmationDialog d = ConfirmationDialog(prompt_text, tr("Ok"), "", true, parent);
+  ConfirmationDialog d(prompt_text, tr("Ok"), "", true, parent);
   return d.exec();
 }
 
 // MultiOptionDialog
 
-MultiOptionDialog::MultiOptionDialog(const QString &prompt_text, const QStringList &l, const QString &current, QWidget *parent) : QDialogBase(parent) {
+MultiOptionDialog::MultiOptionDialog(const QString &prompt_text, const QStringList &l, const QString &current, QWidget *parent) : DialogBase(parent) {
   QFrame *container = new QFrame(this);
   container->setStyleSheet(R"(
     QFrame { background-color: #1B1B1B; }
@@ -296,12 +302,13 @@ MultiOptionDialog::MultiOptionDialog(const QString &prompt_text, const QStringLi
     group->addButton(selectionLabel);
     listLayout->addWidget(selectionLabel);
   }
+  // add stretch to keep buttons spaced correctly
+  listLayout->addStretch(1);
 
   ScrollView *scroll_view = new ScrollView(listWidget, this);
   scroll_view->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
   main_layout->addWidget(scroll_view);
-  main_layout->addStretch(1);
   main_layout->addSpacing(35);
 
   // cancel + confirm buttons
@@ -321,7 +328,7 @@ MultiOptionDialog::MultiOptionDialog(const QString &prompt_text, const QStringLi
 }
 
 QString MultiOptionDialog::getSelection(const QString &prompt_text, const QStringList &l, const QString &current, QWidget *parent) {
-  MultiOptionDialog d = MultiOptionDialog(prompt_text, l, current, parent);
+  MultiOptionDialog d(prompt_text, l, current, parent);
   if (d.exec()) {
     return d.selection;
   }

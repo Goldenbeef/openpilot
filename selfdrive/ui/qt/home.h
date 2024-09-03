@@ -10,7 +10,7 @@
 #include "common/params.h"
 #include "selfdrive/ui/qt/offroad/driverview.h"
 #include "selfdrive/ui/qt/body.h"
-#include "selfdrive/ui/qt/onroad.h"
+#include "selfdrive/ui/qt/onroad/onroad_home.h"
 #include "selfdrive/ui/qt/sidebar.h"
 #include "selfdrive/ui/qt/widgets/controls.h"
 #include "selfdrive/ui/qt/widgets/offroad_alerts.h"
@@ -21,6 +21,9 @@ class OffroadHome : public QFrame {
 
 public:
   explicit OffroadHome(QWidget* parent = 0);
+
+signals:
+  void openSettings(int index = 0, const QString &param = "");
 
 private:
   void showEvent(QShowEvent *event) override;
@@ -45,7 +48,7 @@ public:
   explicit HomeWindow(QWidget* parent = 0);
 
 signals:
-  void openSettings();
+  void openSettings(int index = 0, const QString &param = "");
   void closeSettings();
 
 public slots:

@@ -2,14 +2,15 @@
 import time
 
 from cereal import car, log, messaging
-from common.params import Params
-from selfdrive.manager.process_config import managed_processes
+from openpilot.common.params import Params
+from openpilot.system.manager.process_config import managed_processes
+from openpilot.system.hardware import HARDWARE
 
 if __name__ == "__main__":
-  CP = car.CarParams(notCar=True)
+  CP = car.CarParams(notCar=True, wheelbase=1, steerRatio=10)
   Params().put("CarParams", CP.to_bytes())
 
-  procs = ['camerad', 'ui', 'modeld', 'calibrationd']
+  procs = ['camerad', 'ui', 'modeld', 'calibrationd', 'plannerd', 'dmonitoringmodeld', 'dmonitoringd']
   for p in procs:
     managed_processes[p].start()
 
@@ -17,6 +18,7 @@ if __name__ == "__main__":
 
   msgs = {s: messaging.new_message(s) for s in ['controlsState', 'deviceState', 'carParams']}
   msgs['deviceState'].deviceState.started = True
+  msgs['deviceState'].deviceState.deviceType = HARDWARE.get_device_type()
   msgs['carParams'].carParams.openpilotLongitudinalControl = True
 
   msgs['pandaStates'] = messaging.new_message('pandaStates', 1)

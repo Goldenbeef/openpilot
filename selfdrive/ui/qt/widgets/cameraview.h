@@ -1,7 +1,12 @@
 #pragma once
 
+#include <deque>
+#include <map>
 #include <memory>
 #include <mutex>
+#include <set>
+#include <string>
+#include <utility>
 
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
@@ -17,7 +22,7 @@
 #include <drm/drm_fourcc.h>
 #endif
 
-#include "cereal/visionipc/visionipc_client.h"
+#include "msgq/visionipc/visionipc_client.h"
 #include "system/camerad/cameras/camera_common.h"
 #include "selfdrive/ui/ui.h"
 
@@ -35,11 +40,13 @@ public:
   void setFrameId(int frame_id) { draw_frame_id = frame_id; }
   void setStreamType(VisionStreamType type) { requested_stream_type = type; }
   VisionStreamType getStreamType() { return active_stream_type; }
+  void stopVipcThread();
 
 signals:
   void clicked();
   void vipcThreadConnected(VisionIpcClient *);
   void vipcThreadFrameReceived();
+  void vipcAvailableStreamsUpdated(std::set<VisionStreamType>);
 
 protected:
   void paintGL() override;
@@ -52,15 +59,17 @@ protected:
   void vipcThread();
   void clearFrames();
 
+  int glWidth();
+  int glHeight();
+
   bool zoomed_view;
   GLuint frame_vao, frame_vbo, frame_ibo;
   GLuint textures[2];
-  mat4 frame_mat;
+  mat4 frame_mat = {};
   std::unique_ptr<QOpenGLShaderProgram> program;
   QColor bg = QColor("#000000");
 
 #ifdef QCOM2
-  EGLDisplay egl_display;
   std::map<int, EGLImageKHR> egl_images;
 #endif
 
@@ -70,6 +79,7 @@ protected:
   int stream_stride = 0;
   std::atomic<VisionStreamType> active_stream_type;
   std::atomic<VisionStreamType> requested_stream_type;
+  std::set<VisionStreamType> available_streams;
   QThread *vipc_thread = nullptr;
 
   // Calibration
@@ -77,7 +87,7 @@ protected:
   float y_offset = 0;
   float zoom = 1.0;
   mat3 calibration = DEFAULT_CALIBRATION;
-  mat3 intrinsic_matrix = fcam_intrinsic_matrix;
+  mat3 intrinsic_matrix = FCAM_INTRINSIC_MATRIX;
 
   std::recursive_mutex frame_lock;
   std::deque<std::pair<uint32_t, VisionBuf*>> frames;
@@ -87,4 +97,7 @@ protected:
 protected slots:
   void vipcConnected(VisionIpcClient *vipc_client);
   void vipcFrameReceived();
+  void availableStreamsUpdated(std::set<VisionStreamType> streams);
 };
+
+Q_DECLARE_METATYPE(std::set<VisionStreamType>);

@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <map>
+#include <string>
 
 #include <QDebug>
 #include <QDir>
@@ -32,8 +33,8 @@ const QString CACHE_PATH = "/data/openpilot.cache";
 #define INSTALL_PATH "/data/openpilot"
 #define TMP_INSTALL_PATH "/data/tmppilot"
 
-extern const uint8_t str_continue[] asm("_binary_selfdrive_ui_installer_continue_" BRAND "_sh_start");
-extern const uint8_t str_continue_end[] asm("_binary_selfdrive_ui_installer_continue_" BRAND "_sh_end");
+extern const uint8_t str_continue[] asm("_binary_selfdrive_ui_installer_continue_openpilot_sh_start");
+extern const uint8_t str_continue_end[] asm("_binary_selfdrive_ui_installer_continue_openpilot_sh_end");
 
 bool time_valid() {
   time_t rawtime;
@@ -141,9 +142,9 @@ void Installer::cachedFetch(const QString &cache) {
 void Installer::readProgress() {
   const QVector<QPair<QString, int>> stages = {
     // prefix, weight in percentage
-    {tr("Receiving objects: "), 91},
-    {tr("Resolving deltas: "), 2},
-    {tr("Updating files: "), 7},
+    {"Receiving objects: ", 91},
+    {"Resolving deltas: ", 2},
+    {"Updating files: ", 7},
   };
 
   auto line = QString(proc.readAllStandardError());
@@ -179,10 +180,12 @@ void Installer::cloneFinished(int exitCode, QProcess::ExitStatus exitStatus) {
 #ifdef INTERNAL
   run("mkdir -p /data/params/d/");
 
+  // https://github.com/commaci2.keys
+  const std::string ssh_keys = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMX2kU8eBZyEWmbq0tjMPxksWWVuIV/5l64GabcYbdpI";
   std::map<std::string, std::string> params = {
     {"SshEnabled", "1"},
     {"RecordFrontLock", "1"},
-    {"GithubSshKeys", SSH_KEYS},
+    {"GithubSshKeys", ssh_keys},
   };
   for (const auto& [key, value] : params) {
     std::ofstream param;

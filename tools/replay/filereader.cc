@@ -3,11 +3,12 @@
 #include <fstream>
 
 #include "common/util.h"
+#include "system/hardware/hw.h"
 #include "tools/replay/util.h"
 
 std::string cacheFilePath(const std::string &url) {
   static std::string cache_path = [] {
-    const std::string comma_cache = util::getenv("COMMA_CACHE", "/tmp/comma_download_cache/");
+    const std::string comma_cache = Path::download_cache_root();
     util::create_directories(comma_cache, 0755);
     return comma_cache.back() == '/' ? comma_cache : comma_cache + "/";
   }();
@@ -34,7 +35,10 @@ std::string FileReader::read(const std::string &file, std::atomic<bool> *abort) 
 
 std::string FileReader::download(const std::string &url, std::atomic<bool> *abort) {
   for (int i = 0; i <= max_retries_ && !(abort && *abort); ++i) {
-    if (i > 0) rWarning("download failed, retrying %d", i);
+    if (i > 0) {
+      rWarning("download failed, retrying %d", i);
+      util::sleep_for(3000);
+    }
 
     std::string result = httpGet(url, chunk_size_, abort);
     if (!result.empty()) {

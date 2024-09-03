@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 #nmcli connection modify --temporary lte gsm.home-only yes
 #nmcli connection modify --temporary lte gsm.auto-config yes
@@ -7,7 +7,7 @@ sudo nmcli connection reload
 
 sudo systemctl stop ModemManager
 nmcli con down lte
-nmcli con down magenta-prime
+nmcli con down blue-prime
 
 # power cycle modem
 /usr/comma/lte/lte.sh stop_blocking

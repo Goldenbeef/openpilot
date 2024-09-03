@@ -66,6 +66,26 @@
         <source>Prevent large data uploads when on a metered connection</source>
         <translation>当使用按流量计费的连接时，避免上传大流量数据</translation>
     </message>
+    <message>
+        <source>Hidden Network</source>
+        <translation>隐藏的网络</translation>
+    </message>
+    <message>
+        <source>CONNECT</source>
+        <translation>连线</translation>
+    </message>
+    <message>
+        <source>Enter SSID</source>
+        <translation>输入 SSID</translation>
+    </message>
+    <message>
+        <source>Enter password</source>
+        <translation>输入密码</translation>
+    </message>
+    <message>
+        <source>for &quot;%1&quot;</source>
+        <translation>网络名称：&quot;%1&quot;</translation>
+    </message>
 </context>
 <context>
     <name>AnnotatedCameraWidget</name>
@@ -80,14 +100,6 @@
     <message>
         <source>MAX</source>
         <translation>最高定速</translation>
-    </message>
-    <message>
-        <source>SPEED</source>
-        <translation>SPEED</translation>
-    </message>
-    <message>
-        <source>LIMIT</source>
-        <translation>LIMIT</translation>
     </message>
 </context>
 <context>
@@ -164,7 +176,7 @@
     </message>
     <message>
         <source>Review the rules, features, and limitations of openpilot</source>
-        <translation>查看openpilot的使用规则，以及其功能和限制。</translation>
+        <translation>查看 openpilot 的使用规则，以及其功能和限制</translation>
     </message>
     <message>
         <source>Are you sure you want to review the training guide?</source>
@@ -199,8 +211,8 @@
         <translation>关机</translation>
     </message>
     <message>
-        <source>openpilot requires the device to be mounted within 4° left or right and within 5° up or 8° down. openpilot is continuously calibrating, resetting is rarely required.</source>
-        <translation>openpilot要求设备安装的偏航角在左4°和右4°之间，俯仰角在上5°和下8°之间。一般来说，openpilot会持续更新校准，很少需要重置。</translation>
+        <source>openpilot requires the device to be mounted within 4° left or right and within 5° up or 9° down. openpilot is continuously calibrating, resetting is rarely required.</source>
+        <translation>openpilot要求设备安装的偏航角在左4°和右4°之间，俯仰角在上5°和下9°之间。一般来说，openpilot会持续更新校准，很少需要重置。</translation>
     </message>
     <message>
         <source> Your device is pointed %1° %2 and %3° %4.</source>
@@ -246,39 +258,35 @@
         <source>Review</source>
         <translation>预览</translation>
     </message>
-</context>
-<context>
-    <name>DriveStats</name>
     <message>
-        <source>Drives</source>
-        <translation>旅程数</translation>
+        <source>Pair your device with comma connect (connect.comma.ai) and claim your comma prime offer.</source>
+        <translation>将您的设备与comma connect （connect.comma.ai）配对并领取您的comma prime优惠。</translation>
     </message>
     <message>
-        <source>Hours</source>
-        <translation>小时</translation>
+        <source>Pair Device</source>
+        <translation>配对设备</translation>
     </message>
     <message>
-        <source>ALL TIME</source>
-        <translation>全部</translation>
-    </message>
-    <message>
-        <source>PAST WEEK</source>
-        <translation>过去一周</translation>
-    </message>
-    <message>
-        <source>KM</source>
-        <translation>公里</translation>
-    </message>
-    <message>
-        <source>Miles</source>
-        <translation>英里</translation>
+        <source>PAIR</source>
+        <translation>配对</translation>
     </message>
 </context>
 <context>
-    <name>DriverViewScene</name>
+    <name>DriverViewWindow</name>
     <message>
         <source>camera starting</source>
         <translation>正在启动相机</translation>
+    </message>
+</context>
+<context>
+    <name>ExperimentalModeButton</name>
+    <message>
+        <source>EXPERIMENTAL MODE ON</source>
+        <translation>试验模式运行</translation>
+    </message>
+    <message>
+        <source>CHILL MODE ON</source>
+        <translation>轻松模式运行</translation>
     </message>
 </context>
 <context>
@@ -299,110 +307,6 @@
     <message>
         <source>Installing...</source>
         <translation>正在安装……</translation>
-    </message>
-    <message>
-        <source>Receiving objects: </source>
-        <translation>正在接收： </translation>
-    </message>
-    <message>
-        <source>Resolving deltas: </source>
-        <translation>正在处理： </translation>
-    </message>
-    <message>
-        <source>Updating files: </source>
-        <translation>正在更新文件： </translation>
-    </message>
-</context>
-<context>
-    <name>MapETA</name>
-    <message>
-        <source>eta</source>
-        <translation>埃塔</translation>
-    </message>
-    <message>
-        <source>min</source>
-        <translation>分钟</translation>
-    </message>
-    <message>
-        <source>hr</source>
-        <translation>小时</translation>
-    </message>
-    <message>
-        <source>km</source>
-        <translation>km</translation>
-    </message>
-    <message>
-        <source>mi</source>
-        <translation>mi</translation>
-    </message>
-</context>
-<context>
-    <name>MapInstructions</name>
-    <message>
-        <source> km</source>
-        <translation> km</translation>
-    </message>
-    <message>
-        <source> m</source>
-        <translation> m</translation>
-    </message>
-    <message>
-        <source> mi</source>
-        <translation> mi</translation>
-    </message>
-    <message>
-        <source> ft</source>
-        <translation> ft</translation>
-    </message>
-</context>
-<context>
-    <name>MapPanel</name>
-    <message>
-        <source>Current Destination</source>
-        <translation>当前目的地</translation>
-    </message>
-    <message>
-        <source>CLEAR</source>
-        <translation>清空</translation>
-    </message>
-    <message>
-        <source>Recent Destinations</source>
-        <translation>最近目的地</translation>
-    </message>
-    <message>
-        <source>Try the Navigation Beta</source>
-        <translation>试用导航测试版</translation>
-    </message>
-    <message>
-        <source>Get turn-by-turn directions displayed and more with a comma
-prime subscription. Sign up now: https://connect.comma.ai</source>
-        <translation>订阅comma prime以获取导航。
-立即注册：https://connect.comma.ai</translation>
-    </message>
-    <message>
-        <source>No home
-location set</source>
-        <translation>家：未设定</translation>
-    </message>
-    <message>
-        <source>No work
-location set</source>
-        <translation>工作：未设定</translation>
-    </message>
-    <message>
-        <source>no recent destinations</source>
-        <translation>无最近目的地</translation>
-    </message>
-</context>
-<context>
-    <name>MapWindow</name>
-    <message>
-        <source>Map Loading</source>
-        <translation>地图加载中</translation>
-    </message>
-    <message>
-        <source>Waiting for GPS</source>
-        <translation>等待 GPS</translation>
     </message>
 </context>
 <context>
@@ -436,6 +340,59 @@ location set</source>
     </message>
 </context>
 <context>
+    <name>OffroadAlert</name>
+    <message>
+        <source>Immediately connect to the internet to check for updates. If you do not connect to the internet, openpilot won&apos;t engage in %1</source>
+        <translation>请立即连接网络检查更新。如果不连接网络，openpilot 将在 %1 后便无法使用</translation>
+    </message>
+    <message>
+        <source>Connect to internet to check for updates. openpilot won&apos;t automatically start until it connects to internet to check for updates.</source>
+        <translation>请连接至互联网以检查更新。在连接至互联网并完成更新检查之前，openpilot 将不会自动启动。</translation>
+    </message>
+    <message>
+        <source>Unable to download updates
+%1</source>
+        <translation>无法下载更新
+%1</translation>
+    </message>
+    <message>
+        <source>Taking camera snapshots. System won&apos;t start until finished.</source>
+        <translation>正在使用相机拍摄中。在完成之前，系统将无法启动。</translation>
+    </message>
+    <message>
+        <source>An update to your device&apos;s operating system is downloading in the background. You will be prompted to update when it&apos;s ready to install.</source>
+        <translation>一个针对您设备的操作系统更新正在后台下载中。当更新准备好安装时，您将收到提示进行更新。</translation>
+    </message>
+    <message>
+        <source>Device failed to register. It will not connect to or upload to comma.ai servers, and receives no support from comma.ai. If this is an official device, visit https://comma.ai/support.</source>
+        <translation>设备注册失败。它将无法连接或上传至 comma.ai 服务器，并且无法获得 comma.ai 的支持。如果这是一个官方设备，请访问 https://comma.ai/support。</translation>
+    </message>
+    <message>
+        <source>NVMe drive not mounted.</source>
+        <translation>NVMe固态硬盘未被挂载。</translation>
+    </message>
+    <message>
+        <source>Unsupported NVMe drive detected. Device may draw significantly more power and overheat due to the unsupported NVMe.</source>
+        <translation>检测到不支持的 NVMe 固态硬盘。您的设备因为使用了不支持的 NVMe 固态硬盘可能会消耗更多电力并更易过热。</translation>
+    </message>
+    <message>
+        <source>openpilot was unable to identify your car. Your car is either unsupported or its ECUs are not recognized. Please submit a pull request to add the firmware versions to the proper vehicle. Need help? Join discord.comma.ai.</source>
+        <translation>openpilot 无法识别您的车辆。您的车辆可能未被支持，或是其电控单元 (ECU) 未被识别。请提交一个 Pull Request 为您的车辆添加正确的固件版本。需要帮助吗？请加入 discord.comma.ai。</translation>
+    </message>
+    <message>
+        <source>openpilot was unable to identify your car. Check integrity of cables and ensure all connections are secure, particularly that the comma power is fully inserted in the OBD-II port of the vehicle. Need help? Join discord.comma.ai.</source>
+        <translation>openpilot 无法识别您的车辆。请检查线路是否正确安装并确保所有的连接都牢固，特别是确保 comma power 完全插入车辆的 OBD-II 接口。需要帮助吗？请加入 discord.comma.ai。</translation>
+    </message>
+    <message>
+        <source>openpilot detected a change in the device&apos;s mounting position. Ensure the device is fully seated in the mount and the mount is firmly secured to the windshield.</source>
+        <translation>openpilot 检测到设备的安装位置发生变化。请确保设备完全安装在支架上，并确保支架牢固地固定在挡风玻璃上。</translation>
+    </message>
+    <message>
+        <source>Device temperature too high. System cooling down before starting. Current internal component temperature: %1</source>
+        <translation>设备温度过高。系统正在冷却中，等冷却完毕后才会启动。目前内部组件温度：%1</translation>
+    </message>
+</context>
+<context>
     <name>OffroadHome</name>
     <message>
         <source>UPDATE</source>
@@ -448,6 +405,29 @@ location set</source>
     <message>
         <source> ALERT</source>
         <translation> 警报</translation>
+    </message>
+</context>
+<context>
+    <name>OnroadAlerts</name>
+    <message>
+        <source>openpilot Unavailable</source>
+        <translation>无法使用 openpilot</translation>
+    </message>
+    <message>
+        <source>Waiting for controls to start</source>
+        <translation>等待控制服务啟動</translation>
+    </message>
+    <message>
+        <source>TAKE CONTROL IMMEDIATELY</source>
+        <translation>立即接管</translation>
+    </message>
+    <message>
+        <source>Controls Unresponsive</source>
+        <translation>控制服务无响应</translation>
+    </message>
+    <message>
+        <source>Reboot Device</source>
+        <translation>重启设备</translation>
     </message>
 </context>
 <context>
@@ -499,12 +479,16 @@ location set</source>
         <translation>远程访问</translation>
     </message>
     <message>
-        <source>1 year of storage</source>
-        <translation>1年数据存储</translation>
+        <source>24/7 LTE connectivity</source>
+        <translation>全天候 LTE 連線</translation>
     </message>
     <message>
-        <source>Developer perks</source>
-        <translation>开发者福利</translation>
+        <source>1 year of drive storage</source>
+        <translation>一年的行驶记录储存空间</translation>
+    </message>
+    <message>
+        <source>Remote snapshots</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -517,14 +501,6 @@ location set</source>
         <source>comma prime</source>
         <translation>comma prime</translation>
     </message>
-    <message>
-        <source>CONNECT.COMMA.AI</source>
-        <translation>CONNECT.COMMA.AI</translation>
-    </message>
-    <message>
-        <source>COMMA POINTS</source>
-        <translation>COMMA POINTS点数</translation>
-    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -535,10 +511,6 @@ location set</source>
     <message>
         <source>Exit</source>
         <translation>退出</translation>
-    </message>
-    <message>
-        <source>dashcam</source>
-        <translation>行车记录仪</translation>
     </message>
     <message>
         <source>openpilot</source>
@@ -562,6 +534,10 @@ location set</source>
             <numerusform>%n 天前</numerusform>
         </translation>
     </message>
+    <message>
+        <source>now</source>
+        <translation>现在</translation>
+    </message>
 </context>
 <context>
     <name>Reset</name>
@@ -574,16 +550,8 @@ location set</source>
         <translation>您确定要重置您的设备吗？</translation>
     </message>
     <message>
-        <source>Resetting device...</source>
-        <translation>正在重置设备……</translation>
-    </message>
-    <message>
         <source>System Reset</source>
         <translation>恢复出厂设置</translation>
-    </message>
-    <message>
-        <source>System reset triggered. Press confirm to erase all content and settings. Press cancel to resume boot.</source>
-        <translation>已触发系统重置：确认以删除所有内容和设置。取消以正常启动设备。</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -598,8 +566,18 @@ location set</source>
         <translation>确认</translation>
     </message>
     <message>
-        <source>Unable to mount data partition. Press confirm to reset your device.</source>
-        <translation>无法挂载数据分区。 确认以重置您的设备。</translation>
+        <source>Unable to mount data partition. Partition may be corrupted. Press confirm to erase and reset your device.</source>
+        <translation>无法挂载数据分区。分区可能已经损坏。请确认是否要删除并重新设置。</translation>
+    </message>
+    <message>
+        <source>Resetting device...
+This may take up to a minute.</source>
+        <translation>设备重置中…
+这可能需要一分钟的时间。</translation>
+    </message>
+    <message>
+        <source>System reset triggered. Press confirm to erase all content and settings. Press cancel to resume boot.</source>
+        <translation>系统重置已触发。按下“确认”以清除所有内容和设置，按下“取消”以继续启动。</translation>
     </message>
 </context>
 <context>
@@ -623,10 +601,6 @@ location set</source>
     <message>
         <source>Software</source>
         <translation>软件</translation>
-    </message>
-    <message>
-        <source>Navigation</source>
-        <translation>导航</translation>
     </message>
 </context>
 <context>
@@ -672,18 +646,6 @@ location set</source>
         <translation>等待网络连接</translation>
     </message>
     <message>
-        <source>Choose Software to Install</source>
-        <translation>选择要安装的软件</translation>
-    </message>
-    <message>
-        <source>Dashcam</source>
-        <translation>Dashcam（行车记录仪）</translation>
-    </message>
-    <message>
-        <source>Custom Software</source>
-        <translation>自定义软件</translation>
-    </message>
-    <message>
         <source>Enter URL</source>
         <translation>输入网址</translation>
     </message>
@@ -710,6 +672,30 @@ location set</source>
     <message>
         <source>Start over</source>
         <translation>重来</translation>
+    </message>
+    <message>
+        <source>No custom software found at this URL.</source>
+        <translation>在此网址找不到自定义软件。</translation>
+    </message>
+    <message>
+        <source>Something went wrong. Reboot the device.</source>
+        <translation>发生了一些错误。请重新启动您的设备。</translation>
+    </message>
+    <message>
+        <source>Select a language</source>
+        <translation>选择语言</translation>
+    </message>
+    <message>
+        <source>Choose Software to Install</source>
+        <translation>选择要安装的软件</translation>
+    </message>
+    <message>
+        <source>openpilot</source>
+        <translation>openpilot</translation>
+    </message>
+    <message>
+        <source>Custom Software</source>
+        <translation>定制软件</translation>
     </message>
 </context>
 <context>
@@ -772,14 +758,6 @@ location set</source>
     <message>
         <source>PANDA</source>
         <translation>PANDA</translation>
-    </message>
-    <message>
-        <source>GPS</source>
-        <translation>GPS</translation>
-    </message>
-    <message>
-        <source>SEARCH</source>
-        <translation>搜索中</translation>
     </message>
     <message>
         <source>--</source>
@@ -863,6 +841,26 @@ location set</source>
     <message>
         <source>Uninstall</source>
         <translation>卸载</translation>
+    </message>
+    <message>
+        <source>failed to check for update</source>
+        <translation>检查更新失败</translation>
+    </message>
+    <message>
+        <source>up to date, last checked %1</source>
+        <translation>已经是最新版本，上次检查时间为 %1</translation>
+    </message>
+    <message>
+        <source>DOWNLOAD</source>
+        <translation>下载</translation>
+    </message>
+    <message>
+        <source>update available</source>
+        <translation>有可用的更新</translation>
+    </message>
+    <message>
+        <source>never</source>
+        <translation>从未更新</translation>
     </message>
 </context>
 <context>
@@ -965,18 +963,6 @@ location set</source>
         <translation>上传驾驶员摄像头的数据，帮助改进驾驶员监控算法。</translation>
     </message>
     <message>
-        <source>Experimental openpilot Longitudinal Control</source>
-        <translation>试验性的openpilot纵向控制</translation>
-    </message>
-    <message>
-        <source>openpilot longitudinal control is not currently available for this car.</source>
-        <translation>目前此车辆无法使用openpilot纵向控制功能。</translation>
-    </message>
-    <message>
-        <source>Enable experimental longitudinal control to enable this.</source>
-        <translation>启用试验性的纵向控制功能。</translation>
-    </message>
-    <message>
         <source>Disengage on Accelerator Pedal</source>
         <translation>踩油门时取消控制</translation>
     </message>
@@ -985,36 +971,84 @@ location set</source>
         <translation>启用后，踩下油门踏板将取消openpilot。</translation>
     </message>
     <message>
-        <source>Show ETA in 24h Format</source>
-        <translation>以24小时格式显示预计到达时间</translation>
-    </message>
-    <message>
-        <source>Use 24h format instead of am/pm</source>
-        <translation>使用24小时制代替am/pm</translation>
-    </message>
-    <message>
-        <source>Show Map on Left Side of UI</source>
-        <translation>在介面左侧显示地图</translation>
-    </message>
-    <message>
-        <source>Show map on left side when in split screen view.</source>
-        <translation>在分屏模式中，将地图置于屏幕左侧。</translation>
-    </message>
-    <message>
         <source>Experimental Mode</source>
         <translation>测试模式</translation>
     </message>
     <message>
-        <source>    openpilot defaults to driving in &lt;b&gt;chill mode&lt;/b&gt;.    Experimental mode enables &lt;b&gt;alpha-level features&lt;/b&gt; that aren&apos;t ready for chill mode.     Experimental features are listed below:    &lt;br&gt;     &lt;h4&gt;🌮 End-to-End Longitudinal Control 🌮&lt;/h4&gt;     Let the driving model control the gas and brakes. openpilot will drive as it thinks a human would, including stopping for red lights and stop signs. Since the driving model decides which speed to drive, the set speed will only act as an upper bound.</source>
-        <translation>    openpilot 默认 &lt;b&gt;轻松模式&lt;/b&gt;驾驶车辆。    试验模式启用一些轻松模式之外的 &lt;b&gt;试验性功能&lt;/b&gt;。     试验性功能包括：    &lt;br&gt;     &lt;h4&gt;🌮 端到端（End-to-End） 纵向控制 🌮&lt;/h4&gt;     允许智能驾驶模型控制加速和制动。 openpilot 将模仿人类驾驶行为, 包括在遇到红灯和停车让行标识时停车。 鉴于智能驾驶模型判断实际行驶车速，设定速度仅为车速上限。</translation>
+        <source>openpilot defaults to driving in &lt;b&gt;chill mode&lt;/b&gt;. Experimental mode enables &lt;b&gt;alpha-level features&lt;/b&gt; that aren&apos;t ready for chill mode. Experimental features are listed below:</source>
+        <translation>openpilot 默认 &lt;b&gt;轻松模式&lt;/b&gt;驾驶车辆。试验模式启用一些轻松模式之外的 &lt;b&gt;试验性功能&lt;/b&gt;。试验性功能包括：</translation>
     </message>
     <message>
-        <source>openpilot defaults to the car&apos;s built-in ACC instead of openpilot&apos;s longitudinal control on this car. Enable this to switch to openpilot longitudinal control.</source>
-        <translation>openpilot默认使用此车辆自带ACC，而非openpilot纵向控制功能。启用此按钮将切换到openpilot纵向控制功能。</translation>
+        <source>Let the driving model control the gas and brakes. openpilot will drive as it thinks a human would, including stopping for red lights and stop signs. Since the driving model decides the speed to drive, the set speed will only act as an upper bound. This is an alpha quality feature; mistakes should be expected.</source>
+        <translation>允许驾驶模型控制加速和制动，openpilot将模仿人类驾驶车辆，包括在红灯和停车让行标识前停车。鉴于驾驶模型确定行驶车速，所设定的车速仅作为上限。此功能尚处于早期测试状态，有可能会出现操作错误。</translation>
     </message>
     <message>
-        <source>WARNING: openpilot longitudinal control is experimental for this car and will disable Automatic Emergency Braking (AEB).</source>
-        <translation>警告： 此车辆的openpilot纵向控制是试验性功能，且将禁用AEB自动刹车功能。</translation>
+        <source>New Driving Visualization</source>
+        <translation>新驾驶视角</translation>
+    </message>
+    <message>
+        <source>Experimental mode is currently unavailable on this car since the car&apos;s stock ACC is used for longitudinal control.</source>
+        <translation>由于此车辆使用自带的ACC纵向控制，当前无法使用试验模式。</translation>
+    </message>
+    <message>
+        <source>openpilot longitudinal control may come in a future update.</source>
+        <translation>openpilot纵向控制可能会在未来的更新中提供。</translation>
+    </message>
+    <message>
+        <source>openpilot Longitudinal Control (Alpha)</source>
+        <translation>openpilot纵向控制（Alpha 版）</translation>
+    </message>
+    <message>
+        <source>WARNING: openpilot longitudinal control is in alpha for this car and will disable Automatic Emergency Braking (AEB).</source>
+        <translation>警告：此车辆的 openpilot 纵向控制功能目前处于Alpha版本，使用此功能将会停用自动紧急制动（AEB）功能。</translation>
+    </message>
+    <message>
+        <source>On this car, openpilot defaults to the car&apos;s built-in ACC instead of openpilot&apos;s longitudinal control. Enable this to switch to openpilot longitudinal control. Enabling Experimental mode is recommended when enabling openpilot longitudinal control alpha.</source>
+        <translation>在这辆车上，openpilot 默认使用车辆内建的主动巡航控制（ACC），而非 openpilot 的纵向控制。启用此项功能可切换至 openpilot 的纵向控制。当启用 openpilot 纵向控制 Alpha 版本时，建议同时启用实验性模式（Experimental mode）。</translation>
+    </message>
+    <message>
+        <source>Aggressive</source>
+        <translation>积极</translation>
+    </message>
+    <message>
+        <source>Standard</source>
+        <translation>标准</translation>
+    </message>
+    <message>
+        <source>Relaxed</source>
+        <translation>舒适</translation>
+    </message>
+    <message>
+        <source>Driving Personality</source>
+        <translation>驾驶风格</translation>
+    </message>
+    <message>
+        <source>An alpha version of openpilot longitudinal control can be tested, along with Experimental mode, on non-release branches.</source>
+        <translation>在正式（release）版本以外的分支上，可以测试 openpilot 纵向控制的 Alpha 版本以及实验模式。</translation>
+    </message>
+    <message>
+        <source>Enable the openpilot longitudinal control (alpha) toggle to allow Experimental mode.</source>
+        <translation>启用 openpilot 纵向控制（alpha）开关以允许实验模式。</translation>
+    </message>
+    <message>
+        <source>End-to-End Longitudinal Control</source>
+        <translation>端到端纵向控制</translation>
+    </message>
+    <message>
+        <source>Standard is recommended. In aggressive mode, openpilot will follow lead cars closer and be more aggressive with the gas and brake. In relaxed mode openpilot will stay further away from lead cars. On supported cars, you can cycle through these personalities with your steering wheel distance button.</source>
+        <translation>推荐使用标准模式。在积极模式下，openpilot 会更靠近前方车辆，并在油门和刹车方面更加激进。在放松模式下，openpilot 会与前方车辆保持更远距离。在支持的车型上，你可以使用方向盘上的距离按钮来循环切换这些驾驶风格。</translation>
+    </message>
+    <message>
+        <source>The driving visualization will transition to the road-facing wide-angle camera at low speeds to better show some turns. The Experimental mode logo will also be shown in the top right corner.</source>
+        <translation>在低速时，驾驶可视化将转换为道路朝向的广角摄像头，以更好地展示某些转弯。测试模式标志也将显示在右上角。</translation>
+    </message>
+    <message>
+        <source>Always-On Driver Monitoring</source>
+        <translation>驾驶员监控常开</translation>
+    </message>
+    <message>
+        <source>Enable driver monitoring even when openpilot is not engaged.</source>
+        <translation>即使在openpilot未激活时也启用驾驶员监控。</translation>
     </message>
 </context>
 <context>
@@ -1050,6 +1084,29 @@ location set</source>
     <message>
         <source>Update failed</source>
         <translation>更新失败</translation>
+    </message>
+</context>
+<context>
+    <name>WiFiPromptWidget</name>
+    <message>
+        <source>Setup Wi-Fi</source>
+        <translation>设置 Wi-Fi 连接</translation>
+    </message>
+    <message>
+        <source>Connect to Wi-Fi to upload driving data and help improve openpilot</source>
+        <translation>请连接至 Wi-Fi 上传驾驶数据以协助改进openpilot</translation>
+    </message>
+    <message>
+        <source>Open Settings</source>
+        <translation>打开设置</translation>
+    </message>
+    <message>
+        <source>Ready to upload</source>
+        <translation>准备好上传</translation>
+    </message>
+    <message>
+        <source>Training data will be pulled periodically while your device is on Wi-Fi</source>
+        <translation>训练数据将定期通过 Wi-Fi 上载</translation>
     </message>
 </context>
 <context>

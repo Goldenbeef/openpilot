@@ -66,6 +66,26 @@
         <source>Prevent large data uploads when on a metered connection</source>
         <translation>Evite grandes uploads de dados quando estiver em uma conexão limitada</translation>
     </message>
+    <message>
+        <source>Hidden Network</source>
+        <translation>Rede Oculta</translation>
+    </message>
+    <message>
+        <source>CONNECT</source>
+        <translation>CONECTE</translation>
+    </message>
+    <message>
+        <source>Enter SSID</source>
+        <translation>Digite o SSID</translation>
+    </message>
+    <message>
+        <source>Enter password</source>
+        <translation>Insira a senha</translation>
+    </message>
+    <message>
+        <source>for &quot;%1&quot;</source>
+        <translation>para &quot;%1&quot;</translation>
+    </message>
 </context>
 <context>
     <name>AnnotatedCameraWidget</name>
@@ -80,14 +100,6 @@
     <message>
         <source>MAX</source>
         <translation>LIMITE</translation>
-    </message>
-    <message>
-        <source>SPEED</source>
-        <translation>MAX</translation>
-    </message>
-    <message>
-        <source>LIMIT</source>
-        <translation>VELO</translation>
     </message>
 </context>
 <context>
@@ -132,19 +144,19 @@
     </message>
     <message>
         <source>Driver Camera</source>
-        <translation>Câmera voltada para o Motorista</translation>
+        <translation>Câmera do Motorista</translation>
     </message>
     <message>
         <source>PREVIEW</source>
-        <translation>PREVISUAL</translation>
+        <translation>VER</translation>
     </message>
     <message>
         <source>Preview the driver facing camera to ensure that driver monitoring has good visibility. (vehicle must be off)</source>
-        <translation>Pré-visualizar a câmera voltada para o motorista para garantir que monitor tem uma boa visibilidade (veículo precisa estar desligado)</translation>
+        <translation>Pré-visualizar a câmera voltada para o motorista para garantir que o monitoramento do sistema tenha uma boa visibilidade (veículo precisa estar desligado)</translation>
     </message>
     <message>
         <source>Reset Calibration</source>
-        <translation>Resetar Calibragem</translation>
+        <translation>Reinicializar Calibragem</translation>
     </message>
     <message>
         <source>RESET</source>
@@ -199,8 +211,8 @@
         <translation>Desligar</translation>
     </message>
     <message>
-        <source>openpilot requires the device to be mounted within 4° left or right and within 5° up or 8° down. openpilot is continuously calibrating, resetting is rarely required.</source>
-        <translation>o openpilot requer que o dispositivo seja montado dentro de 4° esquerda ou direita e dentro de 5° para cima ou 8° para baixo. o openpilot está continuamente calibrando, resetar raramente é necessário.</translation>
+        <source>openpilot requires the device to be mounted within 4° left or right and within 5° up or 9° down. openpilot is continuously calibrating, resetting is rarely required.</source>
+        <translation>O openpilot requer que o dispositivo seja montado dentro de 4° esquerda ou direita e dentro de 5° para cima ou 9° para baixo. O openpilot está continuamente calibrando, resetar raramente é necessário.</translation>
     </message>
     <message>
         <source> Your device is pointed %1° %2 and %3° %4.</source>
@@ -246,39 +258,35 @@
         <source>Review</source>
         <translation>Revisar</translation>
     </message>
-</context>
-<context>
-    <name>DriveStats</name>
     <message>
-        <source>Drives</source>
-        <translation>Dirigidas</translation>
+        <source>Pair your device with comma connect (connect.comma.ai) and claim your comma prime offer.</source>
+        <translation>Pareie seu dispositivo com comma connect (connect.comma.ai) e reivindique sua oferta de comma prime.</translation>
     </message>
     <message>
-        <source>Hours</source>
-        <translation>Horas</translation>
+        <source>Pair Device</source>
+        <translation>Parear Dispositivo</translation>
     </message>
     <message>
-        <source>ALL TIME</source>
-        <translation>TOTAL</translation>
-    </message>
-    <message>
-        <source>PAST WEEK</source>
-        <translation>SEMANA PASSADA</translation>
-    </message>
-    <message>
-        <source>KM</source>
-        <translation>KM</translation>
-    </message>
-    <message>
-        <source>Miles</source>
-        <translation>Milhas</translation>
+        <source>PAIR</source>
+        <translation>PAREAR</translation>
     </message>
 </context>
 <context>
-    <name>DriverViewScene</name>
+    <name>DriverViewWindow</name>
     <message>
         <source>camera starting</source>
         <translation>câmera iniciando</translation>
+    </message>
+</context>
+<context>
+    <name>ExperimentalModeButton</name>
+    <message>
+        <source>EXPERIMENTAL MODE ON</source>
+        <translation>MODO EXPERIMENTAL ON</translation>
+    </message>
+    <message>
+        <source>CHILL MODE ON</source>
+        <translation>MODO CHILL ON</translation>
     </message>
 </context>
 <context>
@@ -300,112 +308,6 @@
     <message>
         <source>Installing...</source>
         <translation>Instalando...</translation>
-    </message>
-    <message>
-        <source>Receiving objects: </source>
-        <translation>Recebendo objetos: </translation>
-    </message>
-    <message>
-        <source>Resolving deltas: </source>
-        <translation>Resolvendo deltas: </translation>
-    </message>
-    <message>
-        <source>Updating files: </source>
-        <translation>Atualizando arquivos: </translation>
-    </message>
-</context>
-<context>
-    <name>MapETA</name>
-    <message>
-        <source>eta</source>
-        <translation>eta</translation>
-    </message>
-    <message>
-        <source>min</source>
-        <translation>min</translation>
-    </message>
-    <message>
-        <source>hr</source>
-        <translation>hr</translation>
-    </message>
-    <message>
-        <source>km</source>
-        <translation>km</translation>
-    </message>
-    <message>
-        <source>mi</source>
-        <translation>mi</translation>
-    </message>
-</context>
-<context>
-    <name>MapInstructions</name>
-    <message>
-        <source> km</source>
-        <translation> km</translation>
-    </message>
-    <message>
-        <source> m</source>
-        <translation> m</translation>
-    </message>
-    <message>
-        <source> mi</source>
-        <translation> milha</translation>
-    </message>
-    <message>
-        <source> ft</source>
-        <translation> pés</translation>
-    </message>
-</context>
-<context>
-    <name>MapPanel</name>
-    <message>
-        <source>Current Destination</source>
-        <translation>Destino Atual</translation>
-    </message>
-    <message>
-        <source>CLEAR</source>
-        <translation>LIMPAR</translation>
-    </message>
-    <message>
-        <source>Recent Destinations</source>
-        <translation>Destinos Recentes</translation>
-    </message>
-    <message>
-        <source>Try the Navigation Beta</source>
-        <translation>Experimente a Navegação Beta</translation>
-    </message>
-    <message>
-        <source>Get turn-by-turn directions displayed and more with a comma
-prime subscription. Sign up now: https://connect.comma.ai</source>
-        <translation>Obtenha instruções passo a passo exibidas e muito mais com 
-uma assinatura prime Inscreva-se agora:  https://connect.comma.ai</translation>
-    </message>
-    <message>
-        <source>No home
-location set</source>
-        <translation>Sem local
-residência definido</translation>
-    </message>
-    <message>
-        <source>No work
-location set</source>
-        <translation>Sem local de
-trabalho definido</translation>
-    </message>
-    <message>
-        <source>no recent destinations</source>
-        <translation>sem destinos recentes</translation>
-    </message>
-</context>
-<context>
-    <name>MapWindow</name>
-    <message>
-        <source>Map Loading</source>
-        <translation>Carregando Mapa</translation>
-    </message>
-    <message>
-        <source>Waiting for GPS</source>
-        <translation>Esperando por GPS</translation>
     </message>
 </context>
 <context>
@@ -439,6 +341,59 @@ trabalho definido</translation>
     </message>
 </context>
 <context>
+    <name>OffroadAlert</name>
+    <message>
+        <source>Immediately connect to the internet to check for updates. If you do not connect to the internet, openpilot won&apos;t engage in %1</source>
+        <translation>Conecte-se imediatamente à internet para verificar se há atualizações. Se você não se conectar à internet em %1 não será possível acionar o openpilot.</translation>
+    </message>
+    <message>
+        <source>Connect to internet to check for updates. openpilot won&apos;t automatically start until it connects to internet to check for updates.</source>
+        <translation>Conecte-se à internet para verificar se há atualizações. O openpilot não será iniciado automaticamente até que ele se conecte à internet para verificar se há atualizações.</translation>
+    </message>
+    <message>
+        <source>Unable to download updates
+%1</source>
+        <translation>Não é possível baixar atualizações
+%1</translation>
+    </message>
+    <message>
+        <source>Taking camera snapshots. System won&apos;t start until finished.</source>
+        <translation>Tirando fotos da câmera. O sistema não será iniciado até terminar.</translation>
+    </message>
+    <message>
+        <source>An update to your device&apos;s operating system is downloading in the background. You will be prompted to update when it&apos;s ready to install.</source>
+        <translation>Uma atualização para o sistema operacional do seu dispositivo está sendo baixada em segundo plano. Você será solicitado a atualizar quando estiver pronto para instalar.</translation>
+    </message>
+    <message>
+        <source>Device failed to register. It will not connect to or upload to comma.ai servers, and receives no support from comma.ai. If this is an official device, visit https://comma.ai/support.</source>
+        <translation>Falha ao registrar o dispositivo. Ele não se conectará ou fará upload para os servidores comma.ai e não receberá suporte da comma.ai. Se este for um dispositivo oficial, visite https://comma.ai/support.</translation>
+    </message>
+    <message>
+        <source>NVMe drive not mounted.</source>
+        <translation>Unidade NVMe não montada.</translation>
+    </message>
+    <message>
+        <source>Unsupported NVMe drive detected. Device may draw significantly more power and overheat due to the unsupported NVMe.</source>
+        <translation>Unidade NVMe não suportada detectada. O dispositivo pode consumir significativamente mais energia e superaquecimento devido ao NVMe não suportado.</translation>
+    </message>
+    <message>
+        <source>openpilot was unable to identify your car. Your car is either unsupported or its ECUs are not recognized. Please submit a pull request to add the firmware versions to the proper vehicle. Need help? Join discord.comma.ai.</source>
+        <translation>O openpilot não conseguiu identificar o seu carro. Seu carro não é suportado ou seus ECUs não são reconhecidos. Envie um pull request para adicionar as versões de firmware ao veículo adequado. Precisa de ajuda? Junte-se discord.comma.ai.</translation>
+    </message>
+    <message>
+        <source>openpilot was unable to identify your car. Check integrity of cables and ensure all connections are secure, particularly that the comma power is fully inserted in the OBD-II port of the vehicle. Need help? Join discord.comma.ai.</source>
+        <translation>O openpilot não conseguiu identificar o seu carro. Verifique a integridade dos cabos e certifique-se de que todas as conexões estejam seguras, especialmente se o comma power está totalmente inserido na porta OBD-II do veículo. Precisa de ajuda? Junte-se discord.comma.ai.</translation>
+    </message>
+    <message>
+        <source>openpilot detected a change in the device&apos;s mounting position. Ensure the device is fully seated in the mount and the mount is firmly secured to the windshield.</source>
+        <translation>O openpilot detectou uma mudança na posição de montagem do dispositivo. Verifique se o dispositivo está totalmente encaixado no suporte e se o suporte está firmemente preso ao para-brisa.</translation>
+    </message>
+    <message>
+        <source>Device temperature too high. System cooling down before starting. Current internal component temperature: %1</source>
+        <translation>Temperatura do dispositivo muito alta. O sistema está sendo resfriado antes de iniciar. A temperatura atual do componente interno é: %1</translation>
+    </message>
+</context>
+<context>
     <name>OffroadHome</name>
     <message>
         <source>UPDATE</source>
@@ -451,6 +406,29 @@ trabalho definido</translation>
     <message>
         <source> ALERT</source>
         <translation> ALERTA</translation>
+    </message>
+</context>
+<context>
+    <name>OnroadAlerts</name>
+    <message>
+        <source>openpilot Unavailable</source>
+        <translation>openpilot Indisponível</translation>
+    </message>
+    <message>
+        <source>Waiting for controls to start</source>
+        <translation>Aguardando controles para iniciar</translation>
+    </message>
+    <message>
+        <source>TAKE CONTROL IMMEDIATELY</source>
+        <translation>ASSUMA IMEDIATAMENTE</translation>
+    </message>
+    <message>
+        <source>Controls Unresponsive</source>
+        <translation>Controles Não Respondem</translation>
+    </message>
+    <message>
+        <source>Reboot Device</source>
+        <translation>Reinicie o Dispositivo</translation>
     </message>
 </context>
 <context>
@@ -491,7 +469,7 @@ trabalho definido</translation>
     </message>
     <message>
         <source>Become a comma prime member at connect.comma.ai</source>
-        <translation>Torne-se um membro comma prime em connect.comma.ai</translation>
+        <translation>Seja um membro comma prime em connect.comma.ai</translation>
     </message>
     <message>
         <source>PRIME FEATURES:</source>
@@ -499,15 +477,19 @@ trabalho definido</translation>
     </message>
     <message>
         <source>Remote access</source>
-        <translation>Acesso remoto</translation>
+        <translation>Acesso remoto (proxy comma)</translation>
     </message>
     <message>
-        <source>1 year of storage</source>
-        <translation>1 ano de armazenamento</translation>
+        <source>24/7 LTE connectivity</source>
+        <translation>Conectividade LTE (só nos EUA)</translation>
     </message>
     <message>
-        <source>Developer perks</source>
-        <translation>Benefícios para desenvolvedor</translation>
+        <source>1 year of drive storage</source>
+        <translation>1 ano de dados em nuvem</translation>
+    </message>
+    <message>
+        <source>Remote snapshots</source>
+        <translation>Captura remota</translation>
     </message>
 </context>
 <context>
@@ -520,14 +502,6 @@ trabalho definido</translation>
         <source>comma prime</source>
         <translation>comma prime</translation>
     </message>
-    <message>
-        <source>CONNECT.COMMA.AI</source>
-        <translation>CONNECT.COMMA.AI</translation>
-    </message>
-    <message>
-        <source>COMMA POINTS</source>
-        <translation>PONTOS COMMA</translation>
-    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -538,10 +512,6 @@ trabalho definido</translation>
     <message>
         <source>Exit</source>
         <translation>Sair</translation>
-    </message>
-    <message>
-        <source>dashcam</source>
-        <translation>dashcam</translation>
     </message>
     <message>
         <source>openpilot</source>
@@ -568,6 +538,10 @@ trabalho definido</translation>
             <numerusform>há %n dias</numerusform>
         </translation>
     </message>
+    <message>
+        <source>now</source>
+        <translation>agora</translation>
+    </message>
 </context>
 <context>
     <name>Reset</name>
@@ -580,16 +554,8 @@ trabalho definido</translation>
         <translation>Tem certeza que quer resetar seu dispositivo?</translation>
     </message>
     <message>
-        <source>Resetting device...</source>
-        <translation>Resetando dispositivo...</translation>
-    </message>
-    <message>
         <source>System Reset</source>
         <translation>Resetar Sistema</translation>
-    </message>
-    <message>
-        <source>System reset triggered. Press confirm to erase all content and settings. Press cancel to resume boot.</source>
-        <translation>Solicitado reset do sistema. Confirme para apagar todo conteúdo e configurações. Aperte cancelar para continuar boot.</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -604,8 +570,18 @@ trabalho definido</translation>
         <translation>Confirmar</translation>
     </message>
     <message>
-        <source>Unable to mount data partition. Press confirm to reset your device.</source>
-        <translation>Não foi possível montar a partição de dados. Pressione confirmar para resetar seu dispositivo.</translation>
+        <source>Unable to mount data partition. Partition may be corrupted. Press confirm to erase and reset your device.</source>
+        <translation>Não é possível montar a partição de dados. Partição corrompida. Confirme para apagar e redefinir o dispositivo.</translation>
+    </message>
+    <message>
+        <source>Resetting device...
+This may take up to a minute.</source>
+        <translation>Redefinindo o dispositivo
+Isso pode levar até um minuto.</translation>
+    </message>
+    <message>
+        <source>System reset triggered. Press confirm to erase all content and settings. Press cancel to resume boot.</source>
+        <translation>Reinicialização do sistema acionada. Pressione confirmar para apagar todo o conteúdo e configurações. Pressione cancel para retomar a inicialização.</translation>
     </message>
 </context>
 <context>
@@ -629,10 +605,6 @@ trabalho definido</translation>
     <message>
         <source>Software</source>
         <translation>Software</translation>
-    </message>
-    <message>
-        <source>Navigation</source>
-        <translation>Navegação</translation>
     </message>
 </context>
 <context>
@@ -678,18 +650,6 @@ trabalho definido</translation>
         <translation>Esperando pela internet</translation>
     </message>
     <message>
-        <source>Choose Software to Install</source>
-        <translation>Escolher Software para Instalar</translation>
-    </message>
-    <message>
-        <source>Dashcam</source>
-        <translation>Dashcam</translation>
-    </message>
-    <message>
-        <source>Custom Software</source>
-        <translation>Sofware Customizado</translation>
-    </message>
-    <message>
         <source>Enter URL</source>
         <translation>Preencher URL</translation>
     </message>
@@ -716,6 +676,30 @@ trabalho definido</translation>
     <message>
         <source>Start over</source>
         <translation>Inicializar</translation>
+    </message>
+    <message>
+        <source>No custom software found at this URL.</source>
+        <translation>Não há software personalizado nesta URL.</translation>
+    </message>
+    <message>
+        <source>Something went wrong. Reboot the device.</source>
+        <translation>Algo deu errado. Reinicie o dispositivo.</translation>
+    </message>
+    <message>
+        <source>Select a language</source>
+        <translation>Selecione o Idioma</translation>
+    </message>
+    <message>
+        <source>Choose Software to Install</source>
+        <translation>Escolha o Software a ser Instalado</translation>
+    </message>
+    <message>
+        <source>openpilot</source>
+        <translation>openpilot</translation>
+    </message>
+    <message>
+        <source>Custom Software</source>
+        <translation>Software Customizado</translation>
     </message>
 </context>
 <context>
@@ -780,14 +764,6 @@ trabalho definido</translation>
         <translation>PANDA</translation>
     </message>
     <message>
-        <source>GPS</source>
-        <translation>GPS</translation>
-    </message>
-    <message>
-        <source>SEARCH</source>
-        <translation>PROCURA</translation>
-    </message>
-    <message>
         <source>--</source>
         <translation>--</translation>
     </message>
@@ -824,7 +800,7 @@ trabalho definido</translation>
     </message>
     <message>
         <source>Current Version</source>
-        <translation>Versao Atual</translation>
+        <translation>Versão Atual</translation>
     </message>
     <message>
         <source>Download</source>
@@ -852,11 +828,11 @@ trabalho definido</translation>
     </message>
     <message>
         <source>UNINSTALL</source>
-        <translation>DESINSTAL</translation>
+        <translation>REMOVER</translation>
     </message>
     <message>
         <source>Uninstall %1</source>
-        <translation>Desintalar o %1</translation>
+        <translation>Desinstalar o %1</translation>
     </message>
     <message>
         <source>Are you sure you want to uninstall?</source>
@@ -869,6 +845,26 @@ trabalho definido</translation>
     <message>
         <source>Uninstall</source>
         <translation>Desinstalar</translation>
+    </message>
+    <message>
+        <source>failed to check for update</source>
+        <translation>falha ao verificar por atualizações</translation>
+    </message>
+    <message>
+        <source>up to date, last checked %1</source>
+        <translation>atualizado, última verificação %1</translation>
+    </message>
+    <message>
+        <source>DOWNLOAD</source>
+        <translation>BAIXAR</translation>
+    </message>
+    <message>
+        <source>update available</source>
+        <translation>atualização disponível</translation>
+    </message>
+    <message>
+        <source>never</source>
+        <translation>nunca</translation>
     </message>
 </context>
 <context>
@@ -971,56 +967,92 @@ trabalho definido</translation>
         <translation>Upload dados da câmera voltada para o motorista e ajude a melhorar o algoritmo de monitoramentor.</translation>
     </message>
     <message>
-        <source>Experimental openpilot Longitudinal Control</source>
-        <translation>Controle longitudinal experimental openpilot</translation>
-    </message>
-    <message>
-        <source>openpilot longitudinal control is not currently available for this car.</source>
-        <translation>controle longitudinal openpilot não está disponível para este carro.</translation>
-    </message>
-    <message>
-        <source>Enable experimental longitudinal control to enable this.</source>
-        <translation>Habilite o controle longitudinal experimental para habilitar isso.</translation>
-    </message>
-    <message>
         <source>Disengage on Accelerator Pedal</source>
-        <translation>Desacionar Com Pedal Do Acelerador</translation>
+        <translation>Desacionar com Pedal do Acelerador</translation>
     </message>
     <message>
         <source>When enabled, pressing the accelerator pedal will disengage openpilot.</source>
         <translation>Quando ativado, pressionar o pedal do acelerador desacionará o openpilot.</translation>
     </message>
     <message>
-        <source>Show ETA in 24h Format</source>
-        <translation>Mostrar ETA em formato 24h</translation>
-    </message>
-    <message>
-        <source>Use 24h format instead of am/pm</source>
-        <translation>Use o formato 24h em vez de am/pm</translation>
-    </message>
-    <message>
-        <source>Show Map on Left Side of UI</source>
-        <translation>Exibir Mapa no Lado Esquerdo</translation>
-    </message>
-    <message>
-        <source>Show map on left side when in split screen view.</source>
-        <translation>Exibir mapa do lado esquerdo quando a tela for dividida.</translation>
-    </message>
-    <message>
         <source>Experimental Mode</source>
         <translation>Modo Experimental</translation>
     </message>
     <message>
-        <source>    openpilot defaults to driving in &lt;b&gt;chill mode&lt;/b&gt;.    Experimental mode enables &lt;b&gt;alpha-level features&lt;/b&gt; that aren&apos;t ready for chill mode.     Experimental features are listed below:    &lt;br&gt;     &lt;h4&gt;🌮 End-to-End Longitudinal Control 🌮&lt;/h4&gt;     Let the driving model control the gas and brakes. openpilot will drive as it thinks a human would, including stopping for red lights and stop signs. Since the driving model decides which speed to drive, the set speed will only act as an upper bound.</source>
-        <translation>    openpilot por padrão funciona em &lt;b&gt;modo chill&lt;/b&gt;.    modo Experimental ativa &lt;b&gt;recursos de nível-alfa&lt;/b&gt; que não estão prontos para o modo chill.     Recursos experimentais estão listados abaixo:    &lt;br&gt;     &lt;h4&gt;🌮 Controle Longitudinal de Ponta a Ponta 🌮&lt;/h4&gt;     Deixe o modelo de condução controlar o acelerador e os freios. Uma vez que o modelo de condução decide qual velocidade dirigir, a velocidade definida só funcionará como um limite superior.</translation>
+        <source>openpilot defaults to driving in &lt;b&gt;chill mode&lt;/b&gt;. Experimental mode enables &lt;b&gt;alpha-level features&lt;/b&gt; that aren&apos;t ready for chill mode. Experimental features are listed below:</source>
+        <translation>openpilot por padrão funciona em &lt;b&gt;modo chill&lt;/b&gt;. modo Experimental ativa &lt;b&gt;recursos de nível-embrionário&lt;/b&gt; que não estão prontos para o modo chill. Recursos experimentais estão listados abaixo:</translation>
     </message>
     <message>
-        <source>openpilot defaults to the car&apos;s built-in ACC instead of openpilot&apos;s longitudinal control on this car. Enable this to switch to openpilot longitudinal control.</source>
-        <translation>O padrão do openpilot é o ACC integrado do carro em vez do controle longitudinal do openpilot neste carro. Habilite isto para alternar para controle longitudinal do openpilot.</translation>
+        <source>Let the driving model control the gas and brakes. openpilot will drive as it thinks a human would, including stopping for red lights and stop signs. Since the driving model decides the speed to drive, the set speed will only act as an upper bound. This is an alpha quality feature; mistakes should be expected.</source>
+        <translation>Deixe o modelo de IA controlar o acelerador e os freios. O openpilot irá dirigir como pensa que um humano faria, incluindo parar em sinais vermelhos e sinais de parada. Uma vez que o modelo de condução decide a velocidade a conduzir, a velocidade definida apenas funcionará como um limite superior. Este é um recurso de qualidade embrionária; erros devem ser esperados.</translation>
     </message>
     <message>
-        <source>WARNING: openpilot longitudinal control is experimental for this car and will disable Automatic Emergency Braking (AEB).</source>
-        <translation>ATENÇÃO: o controle longitudinal do openpilot é experimental para este carro e desativará a Frenagem Automática de Emergência (AEB).</translation>
+        <source>New Driving Visualization</source>
+        <translation>Nova Visualização de Condução</translation>
+    </message>
+    <message>
+        <source>Experimental mode is currently unavailable on this car since the car&apos;s stock ACC is used for longitudinal control.</source>
+        <translation>O modo Experimental está atualmente indisponível para este carro já que o ACC original do carro é usado para controle longitudinal.</translation>
+    </message>
+    <message>
+        <source>openpilot longitudinal control may come in a future update.</source>
+        <translation>O controle longitudinal openpilot poderá vir em uma atualização futura.</translation>
+    </message>
+    <message>
+        <source>openpilot Longitudinal Control (Alpha)</source>
+        <translation>Controle Longitudinal openpilot (Embrionário)</translation>
+    </message>
+    <message>
+        <source>WARNING: openpilot longitudinal control is in alpha for this car and will disable Automatic Emergency Braking (AEB).</source>
+        <translation>AVISO: o controle longitudinal openpilot está em estado embrionário para este carro e desativará a Frenagem Automática de Emergência (AEB).</translation>
+    </message>
+    <message>
+        <source>On this car, openpilot defaults to the car&apos;s built-in ACC instead of openpilot&apos;s longitudinal control. Enable this to switch to openpilot longitudinal control. Enabling Experimental mode is recommended when enabling openpilot longitudinal control alpha.</source>
+        <translation>Neste carro, o openpilot tem como padrão o ACC embutido do carro em vez do controle longitudinal do openpilot. Habilite isso para alternar para o controle longitudinal openpilot. Recomenda-se ativar o modo Experimental ao ativar o embrionário controle longitudinal openpilot.</translation>
+    </message>
+    <message>
+        <source>Aggressive</source>
+        <translation>Disputa</translation>
+    </message>
+    <message>
+        <source>Standard</source>
+        <translation>Neutro</translation>
+    </message>
+    <message>
+        <source>Relaxed</source>
+        <translation>Calmo</translation>
+    </message>
+    <message>
+        <source>Driving Personality</source>
+        <translation>Temperamento de Direção</translation>
+    </message>
+    <message>
+        <source>An alpha version of openpilot longitudinal control can be tested, along with Experimental mode, on non-release branches.</source>
+        <translation>Uma versão embrionária do controle longitudinal openpilot pode ser testada em conjunto com o modo Experimental, em branches que não sejam de produção.</translation>
+    </message>
+    <message>
+        <source>Enable the openpilot longitudinal control (alpha) toggle to allow Experimental mode.</source>
+        <translation>Habilite o controle longitudinal (embrionário) openpilot para permitir o modo Experimental.</translation>
+    </message>
+    <message>
+        <source>End-to-End Longitudinal Control</source>
+        <translation>Controle Longitudinal de Ponta a Ponta</translation>
+    </message>
+    <message>
+        <source>Standard is recommended. In aggressive mode, openpilot will follow lead cars closer and be more aggressive with the gas and brake. In relaxed mode openpilot will stay further away from lead cars. On supported cars, you can cycle through these personalities with your steering wheel distance button.</source>
+        <translation>Neutro é o recomendado. No modo disputa o openpilot seguirá o carro da frente mais de perto e será mais agressivo com a aceleração e frenagem. No modo calmo o openpilot se manterá mais longe do carro da frente. Em carros compatíveis, você pode alternar esses temperamentos com o botão de distância do volante.</translation>
+    </message>
+    <message>
+        <source>The driving visualization will transition to the road-facing wide-angle camera at low speeds to better show some turns. The Experimental mode logo will also be shown in the top right corner.</source>
+        <translation>A visualização de condução fará a transição para a câmera grande angular voltada para a estrada em baixas velocidades para mostrar melhor algumas curvas. O logotipo do modo Experimental também será mostrado no canto superior direito.</translation>
+    </message>
+    <message>
+        <source>Always-On Driver Monitoring</source>
+        <translation>Monitoramento do Motorista Sempre Ativo</translation>
+    </message>
+    <message>
+        <source>Enable driver monitoring even when openpilot is not engaged.</source>
+        <translation>Habilite o monitoramento do motorista mesmo quando o openpilot não estiver acionado.</translation>
     </message>
 </context>
 <context>
@@ -1056,6 +1088,29 @@ trabalho definido</translation>
     <message>
         <source>Update failed</source>
         <translation>Falha na atualização</translation>
+    </message>
+</context>
+<context>
+    <name>WiFiPromptWidget</name>
+    <message>
+        <source>Setup Wi-Fi</source>
+        <translation>Configurar Wi-Fi</translation>
+    </message>
+    <message>
+        <source>Connect to Wi-Fi to upload driving data and help improve openpilot</source>
+        <translation>Conecte se ao Wi-Fi para realizar upload de dados de condução e ajudar a melhorar o openpilot</translation>
+    </message>
+    <message>
+        <source>Open Settings</source>
+        <translation>Abrir Configurações</translation>
+    </message>
+    <message>
+        <source>Ready to upload</source>
+        <translation>Pronto para upload</translation>
+    </message>
+    <message>
+        <source>Training data will be pulled periodically while your device is on Wi-Fi</source>
+        <translation>Os dados de treinamento serão extraídos periodicamente enquanto o dispositivo estiver no Wi-Fi</translation>
     </message>
 </context>
 <context>

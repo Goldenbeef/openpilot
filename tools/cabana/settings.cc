@@ -1,96 +1,142 @@
 #include "tools/cabana/settings.h"
 
+#include <QAbstractButton>
 #include <QDialogButtonBox>
 #include <QDir>
+#include <QFileDialog>
 #include <QFormLayout>
+#include <QPushButton>
 #include <QSettings>
+#include <QStandardPaths>
+#include <type_traits>
 
-// Settings
+#include "tools/cabana/utils/util.h"
+
+const int MIN_CACHE_MINIUTES = 30;
+const int MAX_CACHE_MINIUTES = 120;
+
 Settings settings;
 
+template <class SettingOperation>
+void settings_op(SettingOperation op) {
+  QSettings s("cabana");
+  op(s, "absolute_time", settings.absolute_time);
+  op(s, "fps", settings.fps);
+  op(s, "max_cached_minutes", settings.max_cached_minutes);
+  op(s, "chart_height", settings.chart_height);
+  op(s, "chart_range", settings.chart_range);
+  op(s, "chart_column_count", settings.chart_column_count);
+  op(s, "last_dir", settings.last_dir);
+  op(s, "last_route_dir", settings.last_route_dir);
+  op(s, "window_state", settings.window_state);
+  op(s, "geometry", settings.geometry);
+  op(s, "video_splitter_state", settings.video_splitter_state);
+  op(s, "recent_files", settings.recent_files);
+  op(s, "message_header_state", settings.message_header_state);
+  op(s, "chart_series_type", settings.chart_series_type);
+  op(s, "theme", settings.theme);
+  op(s, "sparkline_range", settings.sparkline_range);
+  op(s, "multiple_lines_hex", settings.multiple_lines_hex);
+  op(s, "log_livestream", settings.log_livestream);
+  op(s, "log_path", settings.log_path);
+  op(s, "drag_direction", (int &)settings.drag_direction);
+  op(s, "suppress_defined_signals", settings.suppress_defined_signals);
+}
+
 Settings::Settings() {
-  load();
+  last_dir = last_route_dir = QDir::homePath();
+  log_path = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/cabana_live_stream/";
+  settings_op([](QSettings &s, const QString &key, auto &value) {
+    if (auto v = s.value(key); v.canConvert<std::decay_t<decltype(value)>>())
+      value = v.value<std::decay_t<decltype(value)>>();
+  });
 }
 
-void Settings::save() {
-  QSettings s("settings", QSettings::IniFormat);
-  s.setValue("fps", fps);
-  s.setValue("log_size", can_msg_log_size);
-  s.setValue("cached_segment", cached_segment_limit);
-  s.setValue("chart_height", chart_height);
-  s.setValue("chart_theme", chart_theme);
-  s.setValue("max_chart_x_range", max_chart_x_range);
-  s.setValue("last_dir", last_dir);
-}
-
-void Settings::load() {
-  QSettings s("settings", QSettings::IniFormat);
-  fps = s.value("fps", 10).toInt();
-  can_msg_log_size = s.value("log_size", 50).toInt();
-  cached_segment_limit = s.value("cached_segment", 3).toInt();
-  chart_height = s.value("chart_height", 200).toInt();
-  chart_theme = s.value("chart_theme", 0).toInt();
-  max_chart_x_range = s.value("max_chart_x_range", 3 * 60).toInt();
-  last_dir = s.value("last_dir", QDir::homePath()).toString();
+Settings::~Settings() {
+  settings_op([](QSettings &s, const QString &key, auto &v) { s.setValue(key, v); });
 }
 
 // SettingsDlg
 
 SettingsDlg::SettingsDlg(QWidget *parent) : QDialog(parent) {
   setWindowTitle(tr("Settings"));
-  QFormLayout *form_layout = new QFormLayout(this);
+  QVBoxLayout *main_layout = new QVBoxLayout(this);
+  QGroupBox *groupbox = new QGroupBox("General");
+  QFormLayout *form_layout = new QFormLayout(groupbox);
 
-  fps = new QSpinBox(this);
+  form_layout->addRow(tr("Color Theme"), theme = new QComboBox(this));
+  theme->setToolTip(tr("You may need to restart cabana after changes theme"));
+  theme->addItems({tr("Automatic"), tr("Light"), tr("Dark")});
+  theme->setCurrentIndex(settings.theme);
+
+  form_layout->addRow("FPS", fps = new QSpinBox(this));
   fps->setRange(10, 100);
   fps->setSingleStep(10);
   fps->setValue(settings.fps);
-  form_layout->addRow("FPS", fps);
 
-  log_size = new QSpinBox(this);
-  log_size->setRange(50, 500);
-  log_size->setSingleStep(10);
-  log_size->setValue(settings.can_msg_log_size);
-  form_layout->addRow(tr("Signal history log size"), log_size);
+  form_layout->addRow(tr("Max Cached Minutes"), cached_minutes = new QSpinBox(this));
+  cached_minutes->setRange(MIN_CACHE_MINIUTES, MAX_CACHE_MINIUTES);
+  cached_minutes->setSingleStep(1);
+  cached_minutes->setValue(settings.max_cached_minutes);
+  main_layout->addWidget(groupbox);
 
-  cached_segment = new QSpinBox(this);
-  cached_segment->setRange(3, 60);
-  cached_segment->setSingleStep(1);
-  cached_segment->setValue(settings.cached_segment_limit);
-  form_layout->addRow(tr("Cached segments limit"), cached_segment);
+  groupbox = new QGroupBox("New Signal Settings");
+  form_layout = new QFormLayout(groupbox);
+  form_layout->addRow(tr("Drag Direction"), drag_direction = new QComboBox(this));
+  drag_direction->addItems({tr("MSB First"), tr("LSB First"), tr("Always Little Endian"), tr("Always Big Endian")});
+  drag_direction->setCurrentIndex(settings.drag_direction);
+  main_layout->addWidget(groupbox);
 
-  max_chart_x_range = new QSpinBox(this);
-  max_chart_x_range->setRange(1, 60);
-  max_chart_x_range->setSingleStep(1);
-  max_chart_x_range->setValue(settings.max_chart_x_range / 60);
-  form_layout->addRow(tr("Chart range (minutes)"), max_chart_x_range);
+  groupbox = new QGroupBox("Chart");
+  form_layout = new QFormLayout(groupbox);
+  form_layout->addRow(tr("Default Series Type"), chart_series_type = new QComboBox(this));
+  chart_series_type->addItems({tr("Line"), tr("Step Line"), tr("Scatter")});
+  chart_series_type->setCurrentIndex(settings.chart_series_type);
 
-  chart_height = new QSpinBox(this);
+  form_layout->addRow(tr("Chart Height"), chart_height = new QSpinBox(this));
   chart_height->setRange(100, 500);
   chart_height->setSingleStep(10);
   chart_height->setValue(settings.chart_height);
-  form_layout->addRow(tr("Chart height"), chart_height);
+  main_layout->addWidget(groupbox);
 
-  chart_theme = new QComboBox();
-  chart_theme->addItems({"Light", "Dark"});
-  chart_theme->setCurrentIndex(settings.chart_theme == 1 ? 1 : 0);
-  form_layout->addRow(tr("Chart theme"), chart_theme);
+  log_livestream = new QGroupBox(tr("Enable live stream logging"), this);
+  log_livestream->setCheckable(true);
+  QHBoxLayout *path_layout = new QHBoxLayout(log_livestream);
+  path_layout->addWidget(log_path = new QLineEdit(settings.log_path, this));
+  log_path->setReadOnly(true);
+  auto browse_btn = new QPushButton(tr("B&rowse..."));
+  path_layout->addWidget(browse_btn);
+  main_layout->addWidget(log_livestream);
 
   auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-  form_layout->addRow(buttonBox);
+  main_layout->addWidget(buttonBox);
+  setFixedSize(400, sizeHint().height());
 
-  setFixedWidth(360);
-  connect(buttonBox, &QDialogButtonBox::accepted, this, &SettingsDlg::save);
-  connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+  QObject::connect(browse_btn, &QPushButton::clicked, [this]() {
+    QString fn = QFileDialog::getExistingDirectory(
+        this, tr("Log File Location"),
+        QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
+        QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    if (!fn.isEmpty()) {
+      log_path->setText(fn);
+    }
+  });
+  QObject::connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+  QObject::connect(buttonBox, &QDialogButtonBox::accepted, this, &SettingsDlg::save);
 }
 
 void SettingsDlg::save() {
+  if (std::exchange(settings.theme, theme->currentIndex()) != settings.theme) {
+    // set theme before emit changed
+    utils::setTheme(settings.theme);
+  }
   settings.fps = fps->value();
-  settings.can_msg_log_size = log_size->value();
-  settings.cached_segment_limit = cached_segment->value();
+  settings.max_cached_minutes = cached_minutes->value();
+  settings.chart_series_type = chart_series_type->currentIndex();
   settings.chart_height = chart_height->value();
-  settings.chart_theme = chart_theme->currentIndex();
-  settings.max_chart_x_range = max_chart_x_range->value() * 60;
-  settings.save();
-  accept();
+  settings.log_livestream = log_livestream->isChecked();
+  settings.log_path = log_path->text();
+  settings.drag_direction = (Settings::DragDirection)drag_direction->currentIndex();
   emit settings.changed();
+  QDialog::accept();
 }

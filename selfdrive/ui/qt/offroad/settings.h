@@ -1,14 +1,17 @@
 #pragma once
 
+#include <map>
+#include <string>
+
 #include <QButtonGroup>
-#include <QFileSystemWatcher>
 #include <QFrame>
 #include <QLabel>
 #include <QPushButton>
 #include <QStackedWidget>
 #include <QWidget>
 
-
+#include "selfdrive/ui/ui.h"
+#include "selfdrive/ui/qt/util.h"
 #include "selfdrive/ui/qt/widgets/controls.h"
 
 // ********** settings window + top-level panels **********
@@ -17,6 +20,7 @@ class SettingsWindow : public QFrame {
 
 public:
   explicit SettingsWindow(QWidget *parent = 0);
+  void setCurrentPanel(int index, const QString &param = "");
 
 protected:
   void showEvent(QShowEvent *event) override;
@@ -25,6 +29,7 @@ signals:
   void closeSettings();
   void reviewTrainingGuide();
   void showDriverView();
+  void expandToggleDescription(const QString &param);
 
 private:
   QPushButton *sidebar_alert_widget;
@@ -37,6 +42,8 @@ class DevicePanel : public ListWidget {
   Q_OBJECT
 public:
   explicit DevicePanel(SettingsWindow *parent);
+  void showEvent(QShowEvent *event) override;
+
 signals:
   void reviewTrainingGuide();
   void showDriverView();
@@ -48,6 +55,7 @@ private slots:
 
 private:
   Params params;
+  ButtonControl *pair_device;
 };
 
 class TogglesPanel : public ListWidget {
@@ -56,9 +64,16 @@ public:
   explicit TogglesPanel(SettingsWindow *parent);
   void showEvent(QShowEvent *event) override;
 
+public slots:
+  void expandToggleDescription(const QString &param);
+
+private slots:
+  void updateState(const UIState &s);
+
 private:
   Params params;
   std::map<std::string, ParamControl*> toggles;
+  ButtonParamControl *long_personality_setting;
 
   void updateToggles();
 };
@@ -82,5 +97,5 @@ private:
   ButtonControl *targetBranchBtn;
 
   Params params;
-  QFileSystemWatcher *fs_watch;
+  ParamWatcher *fs_watch;
 };
